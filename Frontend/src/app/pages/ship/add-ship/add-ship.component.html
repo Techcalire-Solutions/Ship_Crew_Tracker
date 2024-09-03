@@ -1,0 +1,83 @@
+<h1 mat-dialog-title>
+  @if (ship?._id) {
+      <span>Edit</span>
+  } @else {
+      <span>Add</span>
+  }
+   ship
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" class="user-form">
+      <mat-tab-group class="vertical-tabs">
+          <mat-tab label="Basic">
+              <div fxLayout="column" class="form-field-outer">
+                  <mat-form-field class="w-100" appearance="outline">
+                      <mat-label> Ship </mat-label>
+                      <input matInput formControlName="shipName" required>
+                      <mat-error>
+                          @if (form.controls['shipName'].hasError('required')) {
+                              Name is required
+                          }
+                      </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>ShipCode </mat-label>
+                    <input matInput formControlName="shipCode" required type="text">
+                    <mat-error>
+                        @if (form.controls['shipCode'].hasError('required')) {
+                            Code is required
+                        }
+                      </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label> No of employees </mat-label>
+                    <input matInput formControlName="noOfEmployees" required type="number">
+                    <mat-error>
+                        @if (form.controls['noOfEmployees'].hasError('required')) {
+                            Name is required
+                        }
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+          </mat-tab>
+          <!-- <mat-tab label="Personal" formGroupName="profile">
+              <div fxLayout="column" class="form-field-outer">
+                  <mat-form-field class="w-100">
+                      <mat-label>Name</mat-label>
+                      <input matInput formControlName="name">
+                  </mat-form-field>
+                  <mat-form-field class="w-100">
+                      <mat-label>Surname</mat-label>
+                      <input matInput formControlName="surname">
+                  </mat-form-field>
+                  <mat-form-field class="w-100">
+                      <mat-label>Birthday</mat-label>
+                      <input matInput [matDatepicker]="birthday" formControlName="birthday">
+                      <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
+                      <mat-datepicker #birthday></mat-datepicker>
+                  </mat-form-field>
+                  <mat-radio-group formControlName="gender">
+                      <mat-radio-button value="male" labelPosition="before">Male</mat-radio-button>
+                      <mat-radio-button value="female" labelPosition="before">Female</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-form-field class="w-100">
+                      <mat-label>Image url</mat-label>
+                      <input matInput formControlName="image">
+                  </mat-form-field>
+              </div>
+          </mat-tab> -->
+      </mat-tab-group>
+  </form>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center" (click)="onSubmit()">
+  <button mat-raised-button color="primary" [mat-dialog-close]="form.value" [disabled]="!form.valid">
+      @if (ship?._id) {
+          Update
+      } @else {
+          Save
+      }
+  </button>
+  <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+</div>

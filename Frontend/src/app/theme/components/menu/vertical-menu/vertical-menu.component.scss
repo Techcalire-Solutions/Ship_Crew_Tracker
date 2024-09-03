@@ -1,0 +1,92 @@
+@import "../../../styles/mixins";
+
+.menu-item{
+    .mat-mdc-button {
+        width: 100%;
+        font-weight: 400;
+        height: 42px;
+        padding-left: 16px;
+        .mat-icon.menu-icon {
+            margin-right: 12px;
+        }
+        .mat-icon.menu-expand-icon {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        &.expanded{
+            .mat-icon.menu-expand-icon{
+                -webkit-transform: rotate(180deg);
+                -moz-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+// .sub-menu {
+//   @include menu-level-padding('ltr');
+//   max-height: 0; /* Hidden by default */
+//   overflow: hidden;
+//   transition: max-height 0.25s ease-out;
+// }
+
+// .sub-menu.show {
+//   max-height: 500px; /* Adjust this height according to your submenu's content */
+//   transition: max-height 0.25s ease-in;
+// }
+
+// .sub-menu .mat-mdc-button {
+//   padding-left: 40px; /* Optional styling for buttons within the submenu */
+// }
+
+/* Main Menu Button */
+/* Main Menu Button */
+.menu-icon {
+  margin-right: 8px;
+}
+
+.menu-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.menu-expand-icon {
+  margin-left: auto;
+  transition: transform 0.2s ease-in-out;
+}
+
+.transition-2 {
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Submenu Container */
+.sub-menu {
+  display: flex;
+  flex-direction: column;
+  // padding: 8px 0;
+  background-color: #f9f9f9;
+  // border: 1px solid #e0e0e0;
+  // border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  // position: absolute; /* Adjust based on your layout */
+  // top: 100%; /* Adjust based on your layout */
+  margin-left: 50px; /* Adjust based on your layout */
+  // z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  // transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+/* Submenu Button */
+.sub-menu a.mat-button {
+  padding: 8px 16px;
+  color: #333;
+  text-align: left;
+  font-size: 13px;
+}
+
+.sub-menu a.mat-button:hover {
+  background-color: #e0e0e0;
+}

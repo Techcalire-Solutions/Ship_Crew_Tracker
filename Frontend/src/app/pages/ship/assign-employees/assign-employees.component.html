@@ -1,0 +1,50 @@
+<!-- <h1 mat-dialog-title>
+  @if (role?._id) {
+      <span>Edit</span>
+  } @else {
+      <span>Add</span>
+  }
+   role
+</h1> -->
+<h2>Assign Employees to ship</h2>
+<div mat-dialog-content>
+  <form [formGroup]="form" class="user-form">
+    <div fxLayout="column" class="form-field-outer">
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Select" formControlName="employeeId">
+          <input type="text" placeholder="search" style="width: 95%; height: 25px;" (keyup)="searchemployee($event)">
+          <mat-option *ngFor="let item of employees; let i = index" [value]="item._id"
+                      [disabled]="assignedEmployeeIds.includes(item._id)">
+            {{item.name}} ({{item.employeeCode}})
+          </mat-option>
+          <mat-option *ngIf="employees.length === 0" (click)="addNewEmployee(null)">
+            <span class="material-icons">playlist_add</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>StartingDate</mat-label>
+        <input matInput [matDatepicker]="satrting" formControlName="startingDate">
+        <mat-datepicker-toggle matSuffix [for]="satrting"></mat-datepicker-toggle>
+        <mat-datepicker #satrting></mat-datepicker>
+      </mat-form-field>
+
+      <div class="col center-align" style="align-content: center;">
+        <mat-slide-toggle formControlName="status">Status</mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center" (click)="onSubmit()">
+  <button mat-raised-button color="primary" [mat-dialog-close]="form.value" [disabled]="!form.valid">
+    Save
+      <!-- @if (role?._id) {
+          Update
+      } @else {
+          Save
+      } -->
+  </button>
+  <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+</div>

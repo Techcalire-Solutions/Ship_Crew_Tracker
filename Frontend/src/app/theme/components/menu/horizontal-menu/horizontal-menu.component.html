@@ -1,0 +1,58 @@
+
+<div [fxLayout]="(menuParentId == 0) ? 'row' : 'column'" fxLayoutAlign="start center">
+  <div class="horizontal-menu-item w-100">
+    <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+      routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+      <mat-icon class="horizontal-menu-icon">dashboard</mat-icon>
+      <span class="horizontal-menu-title">Dashboard</span>
+    </a>
+  </div>
+
+  <div class="horizontal-menu-item w-100">
+    <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+      routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+      <mat-icon class="horizontal-menu-icon">dashboard</mat-icon>
+      <span class="horizontal-menu-title">Dashboard</span>
+    </a>
+  </div>
+  <div class="horizontal-menu-item w-100">
+    <a
+      mat-button
+      fxLayout="row"
+      [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+      matTooltipPosition="after"
+      (click)="onSubmenuClick()">
+      <mat-icon class="menu-icon">badge</mat-icon>
+      <span class="menu-title">Employees</span>
+      <mat-icon class="menu-expand-icon transition-2">arrow_drop_down</mat-icon>
+    </a>
+
+
+  <div class="sub-menu" *ngIf="submenuVisible">
+    <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+      matTooltipPosition="after">
+      <mat-icon class="menu-icon">admin_panel_settings</mat-icon>
+      <span class="menu-title">Role</span>
+    </a>
+  </div>
+
+  <div class="sub-menu" *ngIf="submenuVisible">
+    <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+      matTooltipPosition="after">
+      <mat-icon class="menu-icon">verified_user</mat-icon>
+      <span class="menu-title">Deboarding Type</span>
+    </a>
+  </div>
+
+  <div class="sub-menu" *ngIf="submenuVisible">
+    <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+      matTooltipPosition="after">
+      <mat-icon class="menu-icon">group_add</mat-icon>
+      <span class="menu-title">Employees</span>
+    </a>
+  </div>
+  </div>
+
+
+</div>
+
