@@ -1,0 +1,90 @@
+<!-- @for (menu of parentMenu; track menu.id) {
+    <div class="menu-item">
+        @if (menu.routerLink && !menu.hasSubMenu) {
+
+        } -->
+        <!-- @if (menu.href && !menu.subMenu) {
+            <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+                [attr.href]="menu.href || ''" [attr.target]="menu.target || ''"
+                [matTooltip]="menu.title" matTooltipPosition="after" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
+                (click)="onClick(menu.id)" [id]="'menu-item-'+menu.id">
+                <mat-icon class="menu-icon">{{menu.icon}}</mat-icon>
+                <span class="menu-title">{{menu.title}}</span>
+            </a>
+        }
+        @if (menu.hasSubMenu) {
+            <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+                [matTooltip]="menu.title" matTooltipPosition="after" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
+                (click)="onClick(menu.id)" [id]="'menu-item-'+menu.id">
+                <mat-icon class="menu-icon">{{menu.icon}}</mat-icon>
+                <span class="menu-title">{{menu.title}}</span>
+                <mat-icon class="menu-expand-icon transition-2">arrow_drop_down</mat-icon>
+            </a>
+            <div class="sub-menu" [id]="'sub-menu-'+menu.id">
+                <app-vertical-menu [menuItems]="menuItems" [menuParentId]="menu.id"></app-vertical-menu>
+            </div>
+        } -->
+    <!-- </div> -->
+<!-- } -->
+
+<div class="menu-item">
+  <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+    routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}" routerLink=""
+    matTooltipPosition="after">
+    <!--[id]="'menu-item-'+menu.id"  -->
+    <!-- [matTooltip]="menu.title" -->
+    <!-- [routerLink]="[menu.routerLink]"  -->
+      <!-- [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'" -->
+    <mat-icon class="menu-icon">dashboard</mat-icon>
+    <span class="menu-title">Dashbord</span>
+  </a>
+
+  <!-- <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+    routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}" routerLink="ship"
+    matTooltipPosition="after">
+    <mat-icon class="menu-icon">directions_boat</mat-icon>
+    <span class="menu-title">Ship</span>
+  </a> -->
+
+  <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+    matTooltipPosition="after" routerLink="role" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+    <mat-icon class="menu-icon">admin_panel_settings</mat-icon>
+    <span class="menu-title">Role</span>
+  </a>
+
+  <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+    matTooltipPosition="after" routerLink="rank" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+    <mat-icon class="menu-icon">military_tech</mat-icon>
+    <span class="menu-title">Rank</span>
+  </a>
+
+  <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+    matTooltipPosition="after" routerLink="deboardingtype" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+    <mat-icon class="menu-icon">verified_user</mat-icon>
+    <span class="menu-title">Deboarding Type</span>
+  </a>
+
+  <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+    matTooltipPosition="after" routerLink="department" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+    <mat-icon class="menu-icon">category</mat-icon>
+    <span class="menu-title">Department</span>
+  </a>
+
+  <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+    matTooltipPosition="after" routerLink="employees" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+    <mat-icon class="menu-icon">badge</mat-icon>
+    <span class="menu-title">Employees</span>
+  </a>
+
+  <!-- <div class="sub-menu" *ngIf="submenuVisible">
+
+
+    <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+      matTooltipPosition="after" routerLink="employees">
+      <mat-icon class="menu-icon">group_add</mat-icon>
+      <span class="menu-title">Employees</span>
+    </a>
+  </div> -->
+
+</div>
+

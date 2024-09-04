@@ -1,0 +1,38 @@
+/* Apply styles to the mat-form-field containing the input */
+.mat-select-search .mat-form-field {
+  padding: 0 8px; /* Add padding for a better look */
+  margin: 8px 0;  /* Space it nicely within the dropdown */
+}
+
+/* Style the input element */
+.mat-select-search input {
+  width: 100%; /* Make the input take the full width */
+  padding: 8px; /* Add some padding inside the input */
+  border: 1px solid #ddd; /* Light border to separate the input */
+  border-radius: 4px; /* Rounded corners for a smooth look */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  font-size: 14px; /* Adjust font size */
+}
+
+/* Add focus effect for better UX */
+.mat-select-search input:focus {
+  border-color: #3f51b5; /* Change border color on focus */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 2px rgba(63, 81, 181, 0.5); /* Add subtle shadow */
+}
+
+/* Add styles for row div to control layout */
+.mat-select-search .row {
+  display: flex; /* Display as flex to align items */
+  align-items: center; /* Vertically center items */
+  justify-content: space-between; /* Space between if needed */
+}
+
+.search-input-container{
+  height: 10px;
+
+}
+
+input{
+  border: #3f51b5;
+}

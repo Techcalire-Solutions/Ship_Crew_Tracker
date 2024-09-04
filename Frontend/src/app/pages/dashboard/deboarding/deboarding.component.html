@@ -1,0 +1,73 @@
+
+<form [formGroup]="form" class="user-form">
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline" class="fullwidth">
+        <mat-select placeholder="Select" #id (selectionChange)="getEmployeesByShip(id.value)">
+          <mat-option *ngFor="let item of ships" [value]="item._id">
+            {{item.shipName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field class="w-100" appearance="outline" class="fullwidth">
+        <mat-label> Ship Code </mat-label>
+        <input matInput formControlName="shipCode" required>
+      </mat-form-field>
+    </div>
+    <div  class="col">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label> No of employees </mat-label>
+        <input matInput formControlName="noOfEmployees" required type="emp">
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+<div fxLayout="row" cdkDropListGroup>
+  <div fxFlex="50" class="p-2">
+    <mat-card>
+        <mat-card-header fxLayoutAlign="center">
+            <mat-card-title fxLayoutAlign="center">CrewInfo</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="fullwidth">
+            <mat-select placeholder="Select" #id (selectionChange)="getEmployeeById(id.value)">
+              <mat-option *ngFor="let item of employees" [value]="item._id">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+
+        <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
+          <div class="user-img">
+              @if (image){
+                  <img [src]="image" class="transition-2" style="width: 100px; height: 100px;">
+              } @else {
+                  <img [src]="userImage" class="transition-2" style="width: 100px; height: 100px;">
+              }
+          </div>
+        </div>
+    </mat-card>
+</div>
+
+<div fxFlex="50" class="p-2">
+  <mat-card>
+      <mat-card-header>
+          <mat-card-title>Employees</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-selection-list #shoes [multiple]="false">
+              @for (emp of assignedEmployeeIds; track emp) {
+                  <mat-list-option>
+                      <img matListItemAvatar [src]="'img/avatars/avatar-'+emp+'.png'" alt="image">
+                      <div matListItemTitle>Title {{emp.name}}</div>
+                      <div matListItemLine>Subtitle {{emp.roleId.roleName}}</div>
+                  </mat-list-option>
+              }
+          </mat-selection-list>
+      </mat-card-content>
+  </mat-card>
+</div>
+</div>

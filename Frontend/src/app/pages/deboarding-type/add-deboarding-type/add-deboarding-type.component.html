@@ -1,0 +1,52 @@
+<h1 mat-dialog-title>
+  @if (deboardingtype?._id) {
+      <span>Edit</span>
+  } @else {
+      <span>Add</span>
+  }
+   deboardingtype
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" class="user-form">
+    <div fxLayout="column" class="form-field-outer">
+      <mat-form-field class="w-100" appearance="outline">
+          <mat-label> DeboardingType </mat-label>
+          <input matInput formControlName="typeName" required>
+          <mat-error>
+              @if (form.controls['typeName'].hasError('required')) {
+                  Name is required
+              }
+          </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label> Description </mat-label>
+        <input matInput formControlName="description">
+      </mat-form-field>
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label> CurfewTime </mat-label>
+        <input matInput formControlName="curfewTime" required>
+        <mat-error>
+            @if (form.controls['curfewTime'].hasError('required')) {
+                Field is required
+            }
+        </mat-error>
+      </mat-form-field>
+
+      <div class="col center-align" style="align-content: center;">
+        <mat-slide-toggle formControlName="status">Status</mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center" (click)="onSubmit()">
+  <button mat-raised-button color="primary" [mat-dialog-close]="form.value" [disabled]="!form.valid">
+      @if (deboardingtype?._id) {
+          Update
+      } @else {
+          Save
+      }
+  </button>
+  <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+</div>
