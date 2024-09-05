@@ -1,0 +1,49 @@
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EmployeeService } from '../../../services/employee.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { Employee } from '../../../common/interfaces/employee';
+import { environment } from '../../../../environments/environment';
+import { MatListModule } from '@angular/material/list';
+import { CommonModule, DatePipe } from '@angular/common';
+import { EmployeeMonitoring } from '../../../common/interfaces/employee-monitoring';
+
+@Component({
+  selector: 'app-open-employee',
+  standalone: true,
+  imports: [ MatCardModule, MatDividerModule, MatIconModule, MatListModule, DatePipe, CommonModule, MatDialogModule],
+  templateUrl: './open-employee.component.html',
+  styleUrl: './open-employee.component.scss'
+})
+export class OpenEmployeeComponent implements OnInit, OnDestroy {
+  constructor(public dialogRef: MatDialogRef<OpenEmployeeComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder,
+  private snackBar: MatSnackBar, private employeeService: EmployeeService ){}
+
+  employee!: Employee;
+  url = environment.baseUrl;
+  public defaultUser = 'img/users/default-user.jpg';
+  ngOnInit(): void {
+    this.employee = this.data.employee;
+    this.getLog();
+  }
+
+  logs: EmployeeMonitoring[] = [];
+  getLog(){
+    this.employeeService.getEmployeeMonitoringData(this.employee._id).subscribe(data =>{
+      console.log(data);
+      this.logs = data;
+    });
+  }
+
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  close(){
+    this.dialogRef.close();
+  }
+}

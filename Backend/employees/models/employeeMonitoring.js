@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 const employeemonitoringSchema = new mongoose.Schema(
     {
-        employeeId :{type: mongoose.Schema.ObjectId, required: true},
+        employeeId :{type: mongoose.Schema.ObjectId, required: true, ref: 'Employee'},
         checkInTime : { type: Date},
         checkOutTime : { type: Date, required: true},
         currentStatus : { type: Boolean, required: true, default: true},
         curfewTime : { type: Boolean},
-        purpose : { type: String, required: true},
+        purpose : { type: mongoose.Schema.ObjectId, required: true, ref: 'DeboardingType'},
         status :{type:Boolean, required:true, default: true},
     }
 )

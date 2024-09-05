@@ -1,11 +1,13 @@
 import { BoardingComponent } from './boarding/boarding.component';
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import $ from 'jquery';
 import { DeboardingComponent } from './deboarding/deboarding.component';
+import { Subscription } from 'rxjs';
+import { EmployeeService } from '../../services/employee.service';
 
 
 @Component({
@@ -22,70 +24,65 @@ import { DeboardingComponent } from './deboarding/deboarding.component';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit, OnDestroy {
+  employeeService = inject(EmployeeService)
   ngOnInit(): void {
-    setTimeout(() => this.test());
-    this.setActiveClassOnPageLoad();
-  }
-
-  test(): void {
-    const tabsNewAnim = $('#navbarSupportedContent');
-    const activeItemNewAnim = tabsNewAnim.find('.active');
-    const activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
-    const activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
-    const itemPosNewAnimTop = activeItemNewAnim.position();
-    const itemPosNewAnimLeft = activeItemNewAnim.position();
-
-    $(".hori-selector").css({
-      "top": itemPosNewAnimTop?.top + "px",
-      "left": itemPosNewAnimLeft?.left + "px",
-      "height": activeWidthNewAnimHeight + "px",
-      "width": activeWidthNewAnimWidth + "px"
-    });
-
-    $("#navbarSupportedContent").on("click", "li", (e: JQuery.ClickEvent) => {
-      $('#navbarSupportedContent ul li').removeClass("active");
-      $(e.currentTarget).addClass('active');
-
-      const activeWidthNewAnimHeight = $(e.currentTarget).innerHeight();
-      const activeWidthNewAnimWidth = $(e.currentTarget).innerWidth();
-      const itemPosNewAnimTop = $(e.currentTarget).position();
-      const itemPosNewAnimLeft = $(e.currentTarget).position();
-
-      $(".hori-selector").css({
-        "top": itemPosNewAnimTop?.top + "px",
-        "left": itemPosNewAnimLeft?.left + "px",
-        "height": activeWidthNewAnimHeight + "px",
-        "width": activeWidthNewAnimWidth + "px"
-      });
-    });
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    setTimeout(() => this.test(), 500);
-  }
-
-  toggleNavbar(): void {
-    $(".navbar-collapse").slideToggle(300);
-    setTimeout(() => this.test());
-  }
-
-  setActiveClassOnPageLoad(): void {
-    let path = window.location.pathname.split("/").pop();
-
-    if (path === '') {
-      path = 'index.html';
-    }
-
-    const target = $('#navbarSupportedContent ul li a[href="' + path + '"]');
-    target.parent().addClass('active');
+    this.getEmployees();
+    this.getBoardedEmployees();
+    this.getDeBoardedEmployees();
+    this.onLeaveEmployees();
   }
 
   activeTab: string = 'deboarding';
 
   selectTab(tab: string) {
     this.activeTab = tab;
+  }
+
+  employeeSub!: Subscription;
+  employeeCount!: number;
+  getEmployees(){
+    this.employeeSub = this.employeeService.getEmployee().subscribe(employees =>{
+      this.employeeCount = employees.length;
+    });
+  }
+
+  boardedSub!: Subscription;
+  boardedCount!: number;
+  getBoardedEmployees(){
+    this.boardedSub = this.employeeService.getBoardedEmployee().subscribe(employees =>{
+      this.boardedCount = employees.length;
+    })
+  }
+
+  deboardedSub!: Subscription;
+  deboardedCount!: number;
+  getDeBoardedEmployees(){
+    this.deboardedSub = this.employeeService.getDeBoardedEmployee().subscribe(employees =>{
+      this.deboardedCount = employees.length;
+    })
+  }
+
+  onLeaveSub!: Subscription;
+  onLeaveCount!: number;
+  onLeaveEmployees(){
+    this.onLeaveSub = this.employeeService.getOnLeaveEmployee().subscribe(employees =>{
+      this.onLeaveCount = employees.length;
+    })
+  }
+
+  handleApiCall() {
+    this.getEmployees()
+    this.getBoardedEmployees()
+    this.getDeBoardedEmployees()
+    this.onLeaveEmployees()
+  }
+
+  ngOnDestroy(): void {
+    this.employeeSub?.unsubscribe();
+    this.boardedSub?.unsubscribe();
+    this.deboardedSub?.unsubscribe();
+    this.onLeaveSub?.unsubscribe();
   }
 }
 

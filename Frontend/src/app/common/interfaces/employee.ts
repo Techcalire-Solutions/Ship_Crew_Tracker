@@ -18,5 +18,6 @@ export interface Employee {
   rankId: Rank
   departmentId: Department
   currentStatus: string
+  address: string
 }
 

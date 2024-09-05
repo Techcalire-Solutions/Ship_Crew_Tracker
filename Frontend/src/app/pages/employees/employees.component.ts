@@ -20,6 +20,8 @@ import { EmployeeService } from '../../services/employee.service';
 import { DeleteDialogueComponent } from '../../theme/components/delete-dialogue/delete-dialogue.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { environment } from '../../../environments/environment';
+import { OpenEmployeeComponent } from './open-employee/open-employee.component';
+import { Employee } from '../../common/interfaces/employee';
 
 @Component({
   selector: 'app-employees',
@@ -123,6 +125,14 @@ export class EmployeesComponent {
     this.employeeService.updateEmployeeStatus(id, data).subscribe(res => {
       this.snackBar.open("Status updated successfully...","" ,{duration:3000})
       this.getEmployees()
+    });
+  }
+
+  openEmployee(emp: Employee){
+    let dialogRef = this.dialog.open(OpenEmployeeComponent, {
+      data: {employee: emp}
+    });
+    dialogRef.afterClosed().subscribe(res => {
     });
   }
 

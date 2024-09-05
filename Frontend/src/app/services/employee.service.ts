@@ -7,6 +7,7 @@ import { DeboardingType } from '../common/interfaces/deboarding-type';
 import { Employee } from '../common/interfaces/employee';
 import { Rank } from '../common/interfaces/rank';
 import { Department } from '../common/interfaces/department';
+import { EmployeeMonitoring } from '../common/interfaces/employee-monitoring';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,18 @@ export class EmployeeService {
 
   getEmployee(search?:string, page?: number, pageSize?: number):Observable<Employee[]>{
     return this._http.get<Employee[]>(this.url + `/employee/findall?search=${search}&page=${page}&pageSize=${pageSize}`);
+  }
+
+  getBoardedEmployee():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/boardedemployees`);
+  }
+
+  getDeBoardedEmployee():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/deboardedemployees`);
+  }
+
+  getOnLeaveEmployee():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/onleaveemployees`);
   }
 
   getEmployeeByID(id: string):Observable<Employee>{
@@ -122,7 +135,16 @@ export class EmployeeService {
   employeeCheckingOut(data: any){
     return this._http.post(this.url + `/employeemonitoring/checkout/`, data);
   }
+
   employeeCheckIn(data: any){
     return this._http.patch(this.url + `/employeemonitoring/checkin/`, data);
+  }
+
+  getTodayMonitoringData(): Observable<EmployeeMonitoring[]>{
+    return this._http.get<EmployeeMonitoring[]>(this.url + `/employeemonitoring/gettodays/`);
+  }
+
+  getEmployeeMonitoringData(id: string): Observable<EmployeeMonitoring[]>{
+    return this._http.get<EmployeeMonitoring[]>(this.url+ `/employeemonitoring/getbyemployee/`+ id);
   }
 }

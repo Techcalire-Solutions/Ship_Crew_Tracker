@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,6 +41,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './deboarding.component.scss',
 })
 export class DeboardingComponent implements OnInit, OnDestroy {
+  @Output() apiCallEvent = new EventEmitter<void>();
+
   shipService = inject(ShipService);
   employeeService = inject(EmployeeService);
   dragulaService = inject(DragulaService);
@@ -89,6 +91,10 @@ export class DeboardingComponent implements OnInit, OnDestroy {
         data: this.selectedEmployee
       });
       dialogRef.afterClosed().subscribe((res: any) => {
+        if (res && res.employee.currentStatus) {
+          this.selectedEmployee.currentStatus = res.employee.currentStatus;
+        }
+        this.apiCallEvent.emit();
       });
     }else{
         let data = {
@@ -96,8 +102,15 @@ export class DeboardingComponent implements OnInit, OnDestroy {
           checkInTime: new Date()
         }
         this.employeeService.employeeCheckIn(data).subscribe((res: any) => {
-          this.snackBar.open("Employee checkedin succesfully...","" ,{duration:3000})
+          console.log(res);
+
+          this.snackBar.open("Employee checked In succesfully...","" ,{duration:3000})
           this.getEmployees()
+          this.apiCallEvent.emit();
+        },  (error: any) => {
+          // Error callback
+          console.error('Error occurred:', error);
+          alert("Failed to check in employee. Please try again.");
         });
     }
   }

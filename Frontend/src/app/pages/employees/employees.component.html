@@ -21,7 +21,7 @@
 <div fxLayout="row wrap">
   @for (employee of employees | paginate: { itemsPerPage: pageSize, currentPage: currentPage }; track employee._id) {
       <div fxFlex="100" fxFlex.gt-md="33.3" fxFlex.md="50" class="p-2">
-          <mat-card class="p-0">
+          <mat-card class="p-0" (click)="openEmployee(employee)">
               <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
                   <h5 class="user-name">
                       @if (!employee.status) {
@@ -66,7 +66,7 @@
 
                       <p fxLayout="row" fxLayoutAlign="start center">
                           <mat-icon class="muted-text">mail_outline</mat-icon>
-                          <span>Email: {{employee.email}}</span>
+                          <span> {{employee.email}}</span>
                       </p>
                       <p fxLayout="row" fxLayoutAlign="start center">
                           <mat-icon class="muted-text">call</mat-icon>
@@ -74,11 +74,11 @@
                       </p>
                       <p fxLayout="row" fxLayoutAlign="start center">
                           <mat-icon class="muted-text">date_range</mat-icon>
-                          <span>Joined {{employee.joiningDate | date:"dd MMMM, yyyy"}}</span>
+                          <span> {{employee.joiningDate | date:"dd MMMM, yyyy"}}</span>
                       </p>
                       <p fxLayout="row" fxLayoutAlign="start center">
-                          <mat-icon class="muted-text">date_range</mat-icon>
-                          <span>Address : {{employee.address}}</span>
+                          <mat-icon class="muted-text">contact_mail</mat-icon>
+                          <span> {{employee.address}}</span>
                       </p>
 
                   </div>

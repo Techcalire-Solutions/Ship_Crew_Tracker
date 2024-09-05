@@ -49,10 +49,9 @@ export class DeboardingDialogComponent implements OnInit, OnDestroy{
 
   submit!: Subscription;
   onSubmit(){
-    console.log(this.form.getRawValue());
     this.submit = this.employeeService.employeeCheckingOut(this.form.getRawValue()).subscribe(res=>{
-      this.dialogRef.close();
-      this.snackBar.open("Employee checkingout succesfully...","" ,{duration:3000})
+      this.dialogRef.close(res);
+      this.snackBar.open("Employee Checked Out succesfully...","" ,{duration:3000})
     })
   }
 

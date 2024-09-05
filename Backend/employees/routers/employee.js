@@ -23,11 +23,38 @@ router.post('/add', async(req,res)=>{
 router.get('/findbyid/:id', async(req, res)=>{
   try {
     const employee = await Employee.findById(req.params.id)
+    res.send(employee)
   } catch (error) {
     res.send(error)
   }
 })
 
+router.get('/boardedemployees', async(req, res)=>{
+  try {
+    const employee = await Employee.find({ currentStatus: 'In'})
+    res.send(employee)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+router.get('/deboardedemployees', async(req, res)=>{
+  try {
+    const employee = await Employee.find({ currentStatus: 'Out'})
+    res.send(employee)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+router.get('/onleaveemployees', async(req, res)=>{
+  try {
+    const employee = await Employee.find({ leaveStatus: true})
+    res.send(employee)
+  } catch (error) {
+    res.send(error)
+  }
+})
    
 router.get('/findall', async(req, res)=>{
     let whereClause = {}
