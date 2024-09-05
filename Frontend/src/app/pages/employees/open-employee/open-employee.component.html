@@ -1,0 +1,61 @@
+<mat-dialog-content class="scrollable-content">
+  <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-raised-button color="warn" (click)="close()" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.sm="35" fxFlex.md="30" fxFlex.gt-md="25" class="p-2">
+      <mat-card>
+        <!-- Profile Image -->
+        <img mat-card-image class="profile-image" [src]="employee.imageUrl ? url + employee.imageUrl : defaultUser" alt="Profile Photo">
+
+        <mat-card-content class="py-3">
+          <h2 class="text-center">{{employee.rankId.rankName}} {{employee.name}}</h2>
+          <h3 class="text-center primary-color">{{employee.roleId.roleName}}</h3>
+          <h3 class="text-center primary-color">{{employee.departmentId.departmentName}}</h3>
+          <h4 class="muted-text py-1">About:</h4>
+          <div fxFlex="70" fxLayout="column" class="user-details transition-2" [class.blocked]="!employee.status">
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">mail_outline</mat-icon>
+              <span>{{employee.email}}</span>
+              <mat-icon class="muted-text">call</mat-icon>
+              <span>{{employee.phoneNumber}}</span>
+              <mat-icon class="muted-text">date_range</mat-icon>
+              <span>Joined {{employee.joiningDate | date:"dd MMMM, yyyy"}}</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">contact_mail</mat-icon>
+              <span>Address: {{employee.address}}</span>
+            </p>
+          </div>
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <!-- Table Section -->
+        <main class="table" id="customers_table">
+          <section class="table__body">
+            <table>
+              <thead>
+                <tr>
+                  <th> CheckOut </th>
+                  <th> CheckIn </th>
+                  <th> Deboarding Type </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of logs" [ngClass]="{'out-status': item.currentStatus}">
+                  <td>{{item.checkOutTime | date: 'dd/MM/yyyy, hh:mm:ss'}}</td>
+                  <td>{{item.checkInTime | date: 'dd/MM/yyyy, hh:mm:ss'}}</td>
+                  <td>{{item.purpose.typeName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </main>
+      </mat-card>
+    </div>
+  </div>
+</mat-dialog-content>
+

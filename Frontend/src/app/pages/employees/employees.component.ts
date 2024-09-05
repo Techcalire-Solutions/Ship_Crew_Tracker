@@ -19,6 +19,9 @@ import { Settings, SettingsService } from '../../services/settings.service';
 import { EmployeeService } from '../../services/employee.service';
 import { DeleteDialogueComponent } from '../../theme/components/delete-dialogue/delete-dialogue.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { environment } from '../../../environments/environment';
+import { OpenEmployeeComponent } from './open-employee/open-employee.component';
+import { Employee } from '../../common/interfaces/employee';
 
 @Component({
   selector: 'app-employees',
@@ -45,7 +48,8 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 export class EmployeesComponent {
   public settings: Settings;
   public userImage = 'img/add_user.png';
-  public defaultUser = 'img/users/default-user.jpg'
+  public defaultUser = 'img/users/default-user.jpg';
+  url = environment.baseUrl;
   constructor(public settingsService: SettingsService, private snackBar: MatSnackBar,
     public dialog: MatDialog, private employeeService: EmployeeService){
     this.settings = this.settingsService.settings;
@@ -94,8 +98,8 @@ export class EmployeesComponent {
   }
 
   public searchText!: string;
-  search(){
-    console.log(this.searchText);
+  search(event: Event){
+    this.searchText = (event.target as HTMLInputElement).value
     this.getEmployees()
   }
 
@@ -114,13 +118,21 @@ export class EmployeesComponent {
 
   onToggleChange(event: any, id: string) {
     const newValue = event.checked;
-
     let data = {
       status : newValue
     }
+    console.log(data);
     this.employeeService.updateEmployeeStatus(id, data).subscribe(res => {
       this.snackBar.open("Status updated successfully...","" ,{duration:3000})
       this.getEmployees()
+    });
+  }
+
+  openEmployee(emp: Employee){
+    let dialogRef = this.dialog.open(OpenEmployeeComponent, {
+      data: {employee: emp}
+    });
+    dialogRef.afterClosed().subscribe(res => {
     });
   }
 

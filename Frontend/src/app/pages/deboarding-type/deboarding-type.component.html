@@ -6,7 +6,7 @@
     <div fxLayout="row" class="col">
         <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy" hideSingleSelectionIndicator="true">
             <mat-button-toggle value="add" (click)="addDeboardingType(null)">
-              <img src="../../../../public/img/addship.png">
+              <img [src]="typeImage" style="width: 30px; height: 30px;">
             </mat-button-toggle>
             <!-- <mat-button-toggle value="search">
                 <mat-icon>search</mat-icon>

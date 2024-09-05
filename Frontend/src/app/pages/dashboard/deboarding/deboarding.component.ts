@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,7 +17,10 @@ import { MatOptionModule } from '@angular/material/core';
 import {CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
+import { environment } from '../../../../environments/environment';
+import { DeboardingDialogComponent } from '../deboarding-dialog/deboarding-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-deboarding',
@@ -38,28 +41,23 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './deboarding.component.scss',
 })
 export class DeboardingComponent implements OnInit, OnDestroy {
+  @Output() apiCallEvent = new EventEmitter<void>();
+
   shipService = inject(ShipService);
   employeeService = inject(EmployeeService);
   dragulaService = inject(DragulaService);
   snackBar = inject(MatSnackBar);
   fb = inject(FormBuilder)
+  dialog = inject(MatDialog);
 
+  url = environment.baseUrl;
   form: FormGroup = this.fb.group({
     shipCode: [''],
     noOfEmployees: []
   });
 
   ngOnInit(): void {
-    this.getShips();
     this.getEmployees();
-  }
-
-  shipSub!: Subscription;
-  ships: Ship[] = [];
-  getShips(){
-    this.shipSub = this.shipService.getShip().subscribe(ship => {
-      this.ships = ship;
-    });
   }
 
   employeeSub!: Subscription;
@@ -69,10 +67,6 @@ export class DeboardingComponent implements OnInit, OnDestroy {
       this.employees = emp;
       console.log(this.employees);
 
-      for (let i = 0; i < this.assignedEmployeeIds.length; i++) {
-        this.employees = this.employees.filter(emp => emp._id != this.assignedEmployeeIds[i].employeeId._id);
-      }
-      console.log(this.employees);
     });
   }
 
@@ -81,33 +75,43 @@ export class DeboardingComponent implements OnInit, OnDestroy {
   empIdSub!: Subscription;
   getEmployeeById(id: string){
     this.empIdSub = this.employeeService.getEmployeeByID(id).subscribe(emp => {
-      this.image = emp.image;
+      this.image = emp.imageUrl;
     });
   }
 
   ngOnDestroy(): void {
-    this.shipSub.unsubscribe();
     this.employeeSub.unsubscribe();
   }
 
-  assignedEmployeeIds: any[] = [];
-  shipId!: string;
-  getEmployeesByShip(id: string){
-    this.shipId = id;
-    this.shipService.getShipEmployeeByShipId(id).subscribe((emp: any) => {
-      this.assignedEmployeeIds = emp
-      this.getEmployees()
-      this.patchShip(id)
-    });
-  }
+  selectedEmployee!: Employee
+  onSelectionChange(event: MatSelectionListChange) {
+    this.selectedEmployee = event.options[0].value;
+    if(this.selectedEmployee.currentStatus === 'In'){
+      let dialogRef = this.dialog.open(DeboardingDialogComponent, {
+        data: this.selectedEmployee
+      });
+      dialogRef.afterClosed().subscribe((res: any) => {
+        if (res && res.employee.currentStatus) {
+          this.selectedEmployee.currentStatus = res.employee.currentStatus;
+        }
+        this.apiCallEvent.emit();
+      });
+    }else{
+        let data = {
+          employeeId: this.selectedEmployee._id,
+          checkInTime: new Date()
+        }
+        this.employeeService.employeeCheckIn(data).subscribe((res: any) => {
+          console.log(res);
 
-  patchShip(id: string) {
-    this.shipService.getShipById(id).subscribe((ship: any) => {
-      console.log(ship);
-      this.form.patchValue({
-        shipCode: ship.shipCode,
-        noOfEmployees: ship.noOfEmployees
-      })
-    });
+          this.snackBar.open("Employee checked In succesfully...","" ,{duration:3000})
+          this.getEmployees()
+          this.apiCallEvent.emit();
+        },  (error: any) => {
+          // Error callback
+          console.error('Error occurred:', error);
+          alert("Failed to check in employee. Please try again.");
+        });
+    }
   }
 }

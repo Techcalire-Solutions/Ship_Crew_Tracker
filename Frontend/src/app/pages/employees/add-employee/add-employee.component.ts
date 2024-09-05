@@ -28,6 +28,7 @@ import { AddRoleComponent } from '../../role/add-role/add-role.component';
 import { AddRankComponent } from '../../rank/add-rank/add-rank.component';
 import { AddDepartmentComponent } from '../../department/add-department/add-department.component';
 import { AddDeboardingTypeComponent } from '../../deboarding-type/add-deboarding-type/add-deboarding-type.component';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -61,6 +62,7 @@ import { AddDeboardingTypeComponent } from '../../deboarding-type/add-deboarding
   ],
 })
 export class AddEmployeeComponent {
+  imageUrl: string = '';
   dialog = inject(MatDialog)
   constructor(public dialogRef: MatDialogRef<AddEmployeeComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder,
   private snackBar: MatSnackBar, private employeeService: EmployeeService ) {}
@@ -77,18 +79,18 @@ export class AddEmployeeComponent {
     this.form = this.fb.group({
       name : ['', Validators.required],
       employeeCode : ['', Validators.required],
-      deboardingTypeId : [''],
+      deboardingTypeId : [],
       status : [true],
-      roleId : ['', Validators.required],
+      roleId : [, Validators.required],
       phoneNumber : ['', [Validators.required, Validators.pattern("^[0-9 +]*$"), Validators.minLength(10), Validators.maxLength(14)]],
       email : ['', Validators.email],
       joiningDate : ['', Validators.required],
-      rankId : ['', Validators.required],
-      departmentId : [''],
-      address : ['']
-
+      rankId : [, Validators.required],
+      departmentId : [],
+      address : [''],
+      imageUrl: [''],
+      imageName: ['']
     });
-    console.log(this.data);
 
     if(this.data?.stage === 'update' && this.data.value != null){
       this.updateStatus = true;
@@ -241,5 +243,41 @@ export class AddEmployeeComponent {
     // For example, you could set these values to form controls
     this.form.get('roleId')?.setValue(roleId);
     // If you need to store the roleName separately, you might want to set it on another form control or a variable
+  }
+
+  uploadSub!: Subscription;
+  url = environment.baseUrl;
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let file = input.files?.[0];
+    if (file) {
+      let fileName = file.name;
+      if (fileName.length > 12) {
+        const splitName = fileName.split('.');
+        fileName = splitName[0].substring(0, 12) + "... ." + splitName[1];
+      }
+
+      this.uploadSub = this.employeeService.uploadEmployeeImage(file).subscribe({
+        next: (invoice) => {
+          console.log(invoice);
+
+          console.log(invoice.fileUrl);
+
+          this.imageUrl = this.url + invoice.fileUrl;
+
+          this.form.get('imageUrl')?.setValue(invoice.fileUrl);
+          this.form.get('imageName')?.setValue(invoice.file.filename);
+          console.log(this.form.getRawValue());
+        }
+      });
+    }
+  }
+
+  clearFileInput() {
+    let file =  this.form.get('imageName')?.value
+    this.employeeService.deleteImage(file).subscribe(inv => {
+      console.log(inv);
+      this.imageUrl = '';
+    });
   }
 }

@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" [fxLayoutAlign]="(settings.menuType != 'mini') ? 'space-between center' : 'center center'" class="sidenav-header">
     <a mat-raised-button color="accent" routerLink="/" (click)="closeSubMenus()" class="small-logo">G</a>
     @if (settings.menuType == 'default') {
-        <a class="logo" routerLink="/" (click)="closeSubMenus()">Gateway</a>
+        <a class="logo" routerLink="/" (click)="closeSubMenus()">INS DHRUV</a>
     }
     @if (settings.menuType != 'mini') {
         <svg class="pin" (click)="settings.sidenavIsPinned = !settings.sidenavIsPinned">

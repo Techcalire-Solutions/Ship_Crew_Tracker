@@ -1,4 +1,6 @@
 import { DeboardingType } from "./deboarding-type"
+import { Department } from "./department"
+import { Rank } from "./rank"
 import { Role } from "./role"
 
 export interface Employee {
@@ -12,6 +14,10 @@ export interface Employee {
   phoneNumber : string
   email : string
   joiningDate : Date
-  image: string
+  imageUrl: string
+  rankId: Rank
+  departmentId: Department
+  currentStatus: string
+  address: string
 }
 

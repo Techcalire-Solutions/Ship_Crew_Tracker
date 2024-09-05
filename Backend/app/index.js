@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const cors = require('cors');
+const path = require('path');
 
 require('dotenv/config')
 
@@ -35,6 +36,11 @@ app.use('/rank', rank)
 
 const department = require('../employees/routers/department');
 app.use('/department', department)
+
+const em = require('../employees/routers/employeeMonitoring');
+app.use('/employeemonitoring', em)
+
+app.use('/employees/images', express.static(path.join(__dirname, '../employees/images')));
 
 const dbURI = 'mongodb://localhost:27017/ship-crew-tracker_DB'; 
 async function connectDB() {

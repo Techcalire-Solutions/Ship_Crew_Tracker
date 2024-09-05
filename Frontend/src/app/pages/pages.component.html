@@ -10,12 +10,14 @@
                 <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
                     <div fxLayout="row" fxLayoutAlign="center center">
                         @if (settings.menu == 'vertical') {
+
                             <button mat-icon-button (click)="toggleSidenav()">
                                 <mat-icon>menu</mat-icon>
                             </button>
-                            <button fxShow="false" fxShow.gt-xs mat-icon-button (click)="settings.sidenavUserBlock = !settings.sidenavUserBlock">
+                            <a class="logo" routerLink="/" (click)="closeSubMenus()">Gateway Management System</a>
+                            <!-- <button fxShow="false" fxShow.gt-xs mat-icon-button (click)="settings.sidenavUserBlock = !settings.sidenavUserBlock">
                                 <mat-icon>person</mat-icon>
-                            </button>
+                            </button> -->
                         }
                         @if (settings.menu == 'horizontal') {
                             <a mat-raised-button color="accent" routerLink="/" (click)="closeSubMenus()" class="small-logo">G</a>
@@ -23,19 +25,19 @@
                         }
                     </div>
                     <div fxLayout="row" fxLayoutAlign="end center">
-                        <div fxLayout="row" fxLayoutAlign="start center" fxShow="false" fxShow.gt-xs class="search-bar">
+                        <!-- <div fxLayout="row" fxLayoutAlign="start center" fxShow="false" fxShow.gt-xs class="search-bar">
                             <form method="get" fxLayout="row" fxLayoutAlign="start center">
                                 <input type="text" placeholder="Type to search..." class="mat-elevation-z3"  [class.show]="toggleSearchBar">
                                 <button mat-icon-button (click)="toggleSearchBar = !toggleSearchBar" type="button">
                                     <mat-icon>search</mat-icon>
                                 </button>
                             </form>
-                        </div>
-                        <app-flags-menu fxShow="false" fxShow.gt-sm></app-flags-menu>
+                        </div> -->
+                        <!-- <app-flags-menu fxShow="false" fxShow.gt-sm></app-flags-menu> -->
                         <app-fullscreen></app-fullscreen>
-                        <app-applications fxShow="false" fxShow.gt-sm></app-applications>
-                        <app-messages fxShow="false" fxShow.gt-xs></app-messages>
-                        <app-user-menu></app-user-menu>
+                        <!-- <app-applications fxShow="false" fxShow.gt-sm></app-applications> -->
+                        <!-- <app-messages fxShow="false" fxShow.gt-xs></app-messages> -->
+                        <!-- <app-user-menu></app-user-menu> -->
                     </div>
                 </div>
             </mat-toolbar>

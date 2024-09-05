@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Role } from '../common/interfaces/role';
 import { DeboardingType } from '../common/interfaces/deboarding-type';
 import { Employee } from '../common/interfaces/employee';
 import { Rank } from '../common/interfaces/rank';
 import { Department } from '../common/interfaces/department';
+import { EmployeeMonitoring } from '../common/interfaces/employee-monitoring';
 
 @Injectable({
   providedIn: 'root'
@@ -52,8 +53,35 @@ export class EmployeeService {
     return this._http.get<Employee[]>(this.url + `/employee/findall?search=${search}&page=${page}&pageSize=${pageSize}`);
   }
 
+  getBoardedEmployee():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/boardedemployees`);
+  }
+
+  getDeBoardedEmployee():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/deboardedemployees`);
+  }
+
+  getOnLeaveEmployee():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/onleaveemployees`);
+  }
+
   getEmployeeByID(id: string):Observable<Employee>{
     return this._http.get<Employee>(this.url + `/employee/findbyid` + id);
+  }
+
+  uploadEmployeeImage(file: any): Observable<any> {
+    if (file instanceof File) {
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+      return this._http.post(this.url + '/employee/fileupload', formData);
+    } else {
+      // Handle the case where 'file' is not a File object
+      return throwError("Invalid file type");
+    }
+  }
+
+  deleteImage(fileName: string){
+    return this._http.delete(this.url + `/employee/filedelete/?fileName=${fileName}`);
   }
 
   addEmployee(data: any){
@@ -102,5 +130,21 @@ export class EmployeeService {
 
   deleteDepartment(id: string){
     return this._http.delete(this.url + `/department/delete/`+ id);
+  }
+
+  employeeCheckingOut(data: any){
+    return this._http.post(this.url + `/employeemonitoring/checkout/`, data);
+  }
+
+  employeeCheckIn(data: any){
+    return this._http.patch(this.url + `/employeemonitoring/checkin/`, data);
+  }
+
+  getTodayMonitoringData(): Observable<EmployeeMonitoring[]>{
+    return this._http.get<EmployeeMonitoring[]>(this.url + `/employeemonitoring/gettodays/`);
+  }
+
+  getEmployeeMonitoringData(id: string): Observable<EmployeeMonitoring[]>{
+    return this._http.get<EmployeeMonitoring[]>(this.url+ `/employeemonitoring/getbyemployee/`+ id);
   }
 }

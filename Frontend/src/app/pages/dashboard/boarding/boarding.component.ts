@@ -1,12 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { EmployeeService } from '../../../services/employee.service';
+import { Subscription } from 'rxjs';
+import { EmployeeMonitoring } from '../../../common/interfaces/employee-monitoring';
+import { DatePipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-boarding',
   standalone: true,
-  imports: [],
+  imports: [ MatFormFieldModule, MatButtonToggleModule, MatIconModule, MatInputModule, DatePipe, CommonModule],
   templateUrl: './boarding.component.html',
   styleUrl: './boarding.component.scss'
 })
-export class BoardingComponent {
+export class BoardingComponent implements OnInit, OnDestroy{
+  employeeService = inject(EmployeeService);
+  ngOnInit(): void {
+    this.getLog()
+  }
+
+  search($event: KeyboardEvent) {
+
+  }
+
+  logSub!: Subscription;
+  logs: EmployeeMonitoring[] = [];
+  getLog(){
+    this.logSub = this.employeeService.getTodayMonitoringData().subscribe(data =>{
+      console.log(data);
+      this.logs = data;
+    })
+  }
+  addRole(_t18: any) {
+    throw new Error('Method not implemented.');
+  }
+  deleteRole(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  ngOnDestroy(): void {
+
+  }
+
 
 }
