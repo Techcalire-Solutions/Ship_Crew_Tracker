@@ -1,15 +1,18 @@
 const express = require('express');
 const router =express.Router();
+const path = require('path');
+const fs = require('fs');
 
-const Employee = require('../models/employee')
+const Employee = require('../models/employee');
+const multer = require('../../utils/multer');
 
 router.post('/add', async(req,res)=>{
     const{ name, employeeCode, leaveStatus, deboardingTypeId, status, roleId, phoneNumber, email, joiningDate, address,
-      rankId, departmentId 
+      rankId, departmentId, imageName, imageUrl
      } = req.body;
     try {
         const employee = new Employee({ name, employeeCode, leaveStatus, deboardingTypeId, status, roleId, phoneNumber, 
-          email, joiningDate, address, rankId, departmentId  })
+          email, joiningDate, address, rankId, departmentId, imageName, imageUrl, currentStatus : 'In'  })
         await employee.save()
         res.send(employee)       
     } catch (error) {
@@ -113,14 +116,72 @@ router.delete('/delete/:id', async (req, res) => {
 
 router.patch('/updatestatus/:id', async (req, res) => {
   const status = req.body.status;
+  console.log(status);
   try {
-    const result = await Employee.findById(req.params.id);
-    result.status = status;
-    await result.save();
-    res.send(result);
+    const employee = await Employee.findById(req.params.id);
+
+    if (!employee) {
+      return res.status(404).send({ error: 'Employee not found' });
+    }
+
+    employee.status = status;
+    console.log(employee);
+    
+    await employee.save();
+    console.log(employee);
+
+    res.send(employee)
   } catch (error) {
     res.send(error);
   }
 })
+
+router.post('/fileupload', multer.single('file'), (req, res) => {
+  try {
+
+    if (!req.file) {
+      return res.status(400).send({ message: 'No file uploaded' });
+    }
+
+    // Construct the URL path
+    const fileUrl = `/employees/images/${req.file.filename}`;
+
+    res.status(200).send({
+      message: 'File uploaded successfully',
+      file: req.file,
+      fileUrl: fileUrl
+    });
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+router.delete('/filedelete', async (req, res) => {
+  try {
+    console.log(req.query);
+    const fileName = path.basename(req.query.fileName);
+
+    console.log(fileName);
+    const filePath = path.join(__dirname, '../images', fileName);
+
+    if (fs.existsSync(filePath)) {
+      fs.unlink(filePath, async (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+          return res.status(500).send({ message: 'Error deleting file' });
+        }
+
+        res.json({message: "File deleted successfully"}); // Send the response after the file is deleted and database operations are complete
+      });
+    } else {
+      return res.status(404).send({ message: 'File not found' });
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).send(error.message);
+  }
+});
+
 
 module.exports = router

@@ -17,7 +17,10 @@ import { MatOptionModule } from '@angular/material/core';
 import {CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
+import { environment } from '../../../../environments/environment';
+import { DeboardingDialogComponent } from '../deboarding-dialog/deboarding-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-deboarding',
@@ -43,23 +46,16 @@ export class DeboardingComponent implements OnInit, OnDestroy {
   dragulaService = inject(DragulaService);
   snackBar = inject(MatSnackBar);
   fb = inject(FormBuilder)
+  dialog = inject(MatDialog);
 
+  url = environment.baseUrl;
   form: FormGroup = this.fb.group({
     shipCode: [''],
     noOfEmployees: []
   });
 
   ngOnInit(): void {
-    this.getShips();
     this.getEmployees();
-  }
-
-  shipSub!: Subscription;
-  ships: Ship[] = [];
-  getShips(){
-    this.shipSub = this.shipService.getShip().subscribe(ship => {
-      this.ships = ship;
-    });
   }
 
   employeeSub!: Subscription;
@@ -69,10 +65,6 @@ export class DeboardingComponent implements OnInit, OnDestroy {
       this.employees = emp;
       console.log(this.employees);
 
-      for (let i = 0; i < this.assignedEmployeeIds.length; i++) {
-        this.employees = this.employees.filter(emp => emp._id != this.assignedEmployeeIds[i].employeeId._id);
-      }
-      console.log(this.employees);
     });
   }
 
@@ -81,33 +73,32 @@ export class DeboardingComponent implements OnInit, OnDestroy {
   empIdSub!: Subscription;
   getEmployeeById(id: string){
     this.empIdSub = this.employeeService.getEmployeeByID(id).subscribe(emp => {
-      this.image = emp.image;
+      this.image = emp.imageUrl;
     });
   }
 
   ngOnDestroy(): void {
-    this.shipSub.unsubscribe();
     this.employeeSub.unsubscribe();
   }
 
-  assignedEmployeeIds: any[] = [];
-  shipId!: string;
-  getEmployeesByShip(id: string){
-    this.shipId = id;
-    this.shipService.getShipEmployeeByShipId(id).subscribe((emp: any) => {
-      this.assignedEmployeeIds = emp
-      this.getEmployees()
-      this.patchShip(id)
-    });
-  }
-
-  patchShip(id: string) {
-    this.shipService.getShipById(id).subscribe((ship: any) => {
-      console.log(ship);
-      this.form.patchValue({
-        shipCode: ship.shipCode,
-        noOfEmployees: ship.noOfEmployees
-      })
-    });
+  selectedEmployee!: Employee
+  onSelectionChange(event: MatSelectionListChange) {
+    this.selectedEmployee = event.options[0].value;
+    if(this.selectedEmployee.currentStatus === 'In'){
+      let dialogRef = this.dialog.open(DeboardingDialogComponent, {
+        data: this.selectedEmployee
+      });
+      dialogRef.afterClosed().subscribe((res: any) => {
+      });
+    }else{
+        let data = {
+          employeeId: this.selectedEmployee._id,
+          checkInTime: new Date()
+        }
+        this.employeeService.employeeCheckIn(data).subscribe((res: any) => {
+          this.snackBar.open("Employee checkedin succesfully...","" ,{duration:3000})
+          this.getEmployees()
+        });
+    }
   }
 }

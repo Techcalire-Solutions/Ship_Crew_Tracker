@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Role } from '../common/interfaces/role';
 import { DeboardingType } from '../common/interfaces/deboarding-type';
@@ -56,6 +56,21 @@ export class EmployeeService {
     return this._http.get<Employee>(this.url + `/employee/findbyid` + id);
   }
 
+  uploadEmployeeImage(file: any): Observable<any> {
+    if (file instanceof File) {
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+      return this._http.post(this.url + '/employee/fileupload', formData);
+    } else {
+      // Handle the case where 'file' is not a File object
+      return throwError("Invalid file type");
+    }
+  }
+
+  deleteImage(fileName: string){
+    return this._http.delete(this.url + `/employee/filedelete/?fileName=${fileName}`);
+  }
+
   addEmployee(data: any){
     return this._http.post(this.url + `/employee/add`, data);
   }
@@ -102,5 +117,12 @@ export class EmployeeService {
 
   deleteDepartment(id: string){
     return this._http.delete(this.url + `/department/delete/`+ id);
+  }
+
+  employeeCheckingOut(data: any){
+    return this._http.post(this.url + `/employeemonitoring/checkout/`, data);
+  }
+  employeeCheckIn(data: any){
+    return this._http.patch(this.url + `/employeemonitoring/checkin/`, data);
   }
 }

@@ -1,0 +1,25 @@
+
+<div class="custom-dialog">
+  <form [formGroup]="form" class="user-form">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Choose one</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="pt-3">
+            <mat-radio-group fxLayout="column" fxLayoutAlign="center" formControlName="purpose">
+                @for (deb of deboarding; track deb) {
+                    <mat-radio-button [value]="deb._id">{{deb.typeName}}</mat-radio-button>
+                }
+            </mat-radio-group>
+            <!-- <div class="py-1">Your favorite season is: <b> {{favoriteSeason}} </b></div> -->
+        </mat-card-content>
+
+        <mat-card-actions>
+          <div class="dialog-actions">
+            <button class="confirm-button" cdkFocusInitial (click)="onSubmit()">Yes</button>&nbsp;&nbsp;&nbsp;
+            <button class="cancel-button" (click)="close()">No</button>
+          </div>
+        </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

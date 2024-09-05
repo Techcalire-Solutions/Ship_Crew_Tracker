@@ -34,6 +34,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   styleUrl: './deboarding-type.component.scss'
 })
 export class DeboardingTypeComponent {
+  typeImage = 'img/type.png'
   ngOnDestroy(): void {
     this.deboardingtypeSub?.unsubscribe();
     this.delete?.unsubscribe();

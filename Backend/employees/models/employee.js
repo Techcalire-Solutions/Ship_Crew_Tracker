@@ -14,6 +14,9 @@ const employeeSchema = new mongoose.Schema(
         rankId : {type: mongoose.Schema.Types.ObjectId, ref: 'Rank'},
         departmentId : { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: false},
         address : { type: String},
+        imageUrl : { type: String},
+        imageName : { type: String},
+        currentStatus : { type: String, required: true}
     }
 )
 

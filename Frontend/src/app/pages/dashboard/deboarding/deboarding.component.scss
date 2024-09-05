@@ -72,3 +72,21 @@
 .col:last-child {
   margin-right: 0;
 }
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover; /* Ensures the image covers the circle without distortion */
+  display: block;
+  margin: 0 auto; /* Centers the image horizontally */
+}
+
+mat-list-option {
+  transition: background-color 0.3s ease;
+}
+
+/* Conditional style when status is 'Out' */
+.out-status {
+  background-color: #f8d7da; /* Light red background color */
+}

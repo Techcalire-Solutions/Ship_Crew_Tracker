@@ -1,207 +1,89 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" class="px-2 py-1">
   <div fxLayout="row">
-      <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy" hideSingleSelectionIndicator="true">
-          <mat-button-toggle value="add" (click)="addEmployee(null)">
-            <img [src]="userImage" style="width: 40px; height: 40px;">
-          </mat-button-toggle>
-          <!-- <mat-button-toggle value="search">
-              <mat-icon>search</mat-icon>
-          </mat-button-toggle> -->
-      </mat-button-toggle-group>
+    <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy" hideSingleSelectionIndicator="true">
+      <mat-button-toggle value="add" (click)="addEmployee(null)">
+        <img [src]="userImage" style="width: 40px; height: 40px;">
+      </mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
-  <form class="user-search" [class.show]="controls.value == 'search'">
+
+  <!-- Adjust this div to align the search form in the center -->
+  <div fxLayout="row" class="col">
+    <form class="user-search" [class.show]="controls.value == 'search'">
       <mat-form-field class="user-search-input">
-          <input matInput placeholder="Search employee by name..." [(ngModel)]="searchText" name="search" (keyup)="search()">
+          <input matInput placeholder="Search ship by name..." name="search" (keyup)="search($event)">
       </mat-form-field>
-  </form>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-      <mat-button-toggle-group #viewType="matButtonToggleGroup" appearance="legacy" value="grid" hideSingleSelectionIndicator="true">
-          <mat-button-toggle value="grid">
-              <mat-icon>view_module</mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle value="list">
-              <mat-icon>view_list</mat-icon>
-          </mat-button-toggle>
-      </mat-button-toggle-group>
+    </form>
   </div>
 </div>
 
-@if (viewType.value == 'grid') {
-  <div fxLayout="row wrap">
-      @for (employee of employees | paginate: { itemsPerPage: pageSize, currentPage: currentPage }; track employee._id) {
-          <div fxFlex="100" fxFlex.gt-md="33.3" fxFlex.md="50" class="p-2">
-              <mat-card class="p-0">
-                  <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
-                      <h5 class="user-name">
+
+<div fxLayout="row wrap">
+  @for (employee of employees | paginate: { itemsPerPage: pageSize, currentPage: currentPage }; track employee._id) {
+      <div fxFlex="100" fxFlex.gt-md="33.3" fxFlex.md="50" class="p-2">
+          <mat-card class="p-0">
+              <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
+                  <h5 class="user-name">
+                      @if (!employee.status) {
+                          User blocked
+                      } @else {
+                        {{employee.rankId.rankName}} {{employee.name}} {{employee.roleId.roleName}} - {{employee.departmentId?.departmentName}}
+                      }
+                  </h5>
+                  <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" class="default-contrast">
+                      <mat-icon>more_vert</mat-icon>
+                  </button>
+              </div>
+              <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
+                  <span (mouseleave)="menuTrigger.closeMenu()">
+                      <button mat-menu-item (click)="addEmployee(employee)">
+                          <mat-icon>mode_edit</mat-icon>
+                          <span>Edit</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteEmployee(employee._id);">
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                      </button>
+                  </span>
+              </mat-menu>
+              <div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
+                  <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
+                      <div class="user-img">
+                          @if (employee.imageUrl){
+                              <img [src]="url+employee.imageUrl" class="transition-2" [class.blocked]="!employee.status">
+                          } @else {
+                              <img [src]="defaultUser" class="transition-2" [class.blocked]="!employee.status">
+                          }
                           @if (!employee.status) {
-                              User blocked
-                          } @else {
-                            {{employee.rankId.rankName}} {{employee.name}} {{employee.roleId.roleName}} - {{employee.department?.departmentName}}
+                              <mat-icon class="warn-color">block</mat-icon>
                           }
-                      </h5>
-                      <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" class="default-contrast">
-                          <mat-icon>more_vert</mat-icon>
-                      </button>
-                  </div>
-                  <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
-                      <span (mouseleave)="menuTrigger.closeMenu()">
-                          <button mat-menu-item (click)="addEmployee(employee)">
-                              <mat-icon>mode_edit</mat-icon>
-                              <span>Edit</span>
-                          </button>
-                          <button mat-menu-item (click)="deleteEmployee(employee._id);">
-                              <mat-icon>delete</mat-icon>
-                              <span>Delete</span>
-                          </button>
-                      </span>
-                  </mat-menu>
-                  <div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
-                      <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
-                          <div class="user-img">
-                              @if (employee.image){
-                                  <img [src]="employee.image" class="transition-2" [class.blocked]="!employee.status">
-                              } @else {
-                                  <img [src]="defaultUser" class="transition-2" [class.blocked]="!employee.status">
-                              }
-                              @if (!employee.status) {
-                                  <mat-icon class="warn-color">block</mat-icon>
-                              }
-                          </div>
-                          <div class="user-social">
-                              <mat-slide-toggle color="primary" [checked]="employee.status" (change)="onToggleChange($event, employee._id)"></mat-slide-toggle>
-                          </div>
                       </div>
-                      <div fxFlex="70" fxLayout="column" class="user-details transition-2" [class.blocked]="!employee.status">
-
-                          <p fxLayout="row" fxLayoutAlign="start center">
-                              <mat-icon class="muted-text">mail_outline</mat-icon>
-                              <span>Email: {{employee.email}}</span>
-                          </p>
-                          <p fxLayout="row" fxLayoutAlign="start center">
-                              <mat-icon class="muted-text">call</mat-icon>
-                              <span>{{employee.phoneNumber}}</span>
-                          </p>
-                          <p fxLayout="row" fxLayoutAlign="start center">
-                              <mat-icon class="muted-text">date_range</mat-icon>
-                              <span>Joined {{employee.joiningDate | date:"dd MMMM, yyyy"}}</span>
-                          </p>
-                          <p fxLayout="row" fxLayoutAlign="start center">
-                              <mat-icon class="muted-text">date_range</mat-icon>
-                              <span>Address : {{employee.address}}</span>
-                          </p>
-
+                      <div class="user-social">
+                          <mat-slide-toggle color="primary" [checked]="employee.status" (change)="onToggleChange($event, employee._id)"></mat-slide-toggle>
                       </div>
                   </div>
-              </mat-card>
-          </div>
-      }
-  </div>
-}
+                  <div fxFlex="70" fxLayout="column" class="user-details transition-2" [class.blocked]="!employee.status">
 
-@if (viewType.value == 'list') {
-  <div fxLayout="row wrap">
-      @for (user of employees | paginate: { itemsPerPage: pageSize, currentPage: currentPage }; track user.id) {
-          <div fxFlex="100" class="p-2">
-              <mat-card class="p-0">
-                  <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
-                      <h3 class="user-name">
-                          @if (!user.status) {
-                              User blocked
-                          } @else {
-                              {{user.name}}
-                          }
-                      </h3>
-                      <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
-                          <mat-icon>more_vert</mat-icon>
-                      </button>
-                  </div>
-                  <mat-menu #menu="matMenu" xPosition="before"  overlapTrigger="true">
-                      <span (mouseleave)="menuTrigger.closeMenu()">
-                          <button mat-menu-item (click)="addEmployee(user);">
-                              <mat-icon>mode_edit</mat-icon>
-                              <span>Edit</span>
-                          </button>
-                          <button mat-menu-item (click)="deleteEmployee(user);">
-                              <mat-icon>delete</mat-icon>
-                              <span>Delete</span>
-                          </button>
-                      </span>
-                  </mat-menu>
-                  <div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
-                      <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
-                          <div class="user-img">
-                              @if (user.image) {
-                                  <img [src]="user.image" class="transition-2" [class.blocked]="!user.status">
-                              } @else {
-                                  <img [src]="defaultUser" class="transition-2" [class.blocked]="!user.status">
-                              }
-                              @if (!user.status) {
-                                  <mat-icon class="warn-color">block</mat-icon>
-                              }
-                          </div>
-                          <div class="user-social">
-                              <mat-slide-toggle color="primary" [checked]="user.status" (change)="onToggleChange($event, user._id)"></mat-slide-toggle>
-                          </div>
-                      </div>
-                      <div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column" class="user-details transition-2" [class.blocked]="!user.status">
-                          <div fxFlex="30" fxFlex.xs="100" fxLayout="column">
-                              <p fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-icon class="muted-text">card_memberemployee</mat-icon>
-                                  <span>{{user.roleId.roleName}}</span>
-                              </p>
-                              <p fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-icon class="muted-text">attach_money</mat-icon>
-                                  <span>{{user.deboardingTypeId.typeName}}</span>
-                              </p>
-                          </div>
-                          <div fxFlex="30" fxFlex.xs="100" fxLayout="column">
-                              <p fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-icon class="muted-text">mail_outline</mat-icon>
-                                  <span>{{user.email}}</span>
-                              </p>
-                              <p fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-icon class="muted-text">call</mat-icon>
-                                  <span>{{user.phoneNumber}}</span>
-                              </p>
-                              <!-- <p fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-icon class="muted-text">location_on</mat-icon>
-                                  <span>{{user.contacts.address}}</span>
-                              </p> -->
-                          </div>
-                          <div fxFlex="40" fxFlex.xs="100" fxLayout="column">
-                              <p fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-icon class="muted-text">date_range</mat-icon>
-                                  <span>Joined {{user.joiningDate | date:"dd MMMM, yyyy"}}</span>
-                              </p>
-                              <p fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-icon class="muted-text">
-                                      @if (!user.status) {
-                                          person_outline
-                                      } @else {
-                                          person
-                                      }
-                                  </mat-icon>
-                                  <span>{{ (!user.status) ? 'Blocked' : 'Active' }}</span>
-                              </p>
-                          </div>
-                      </div>
-                  </div>
-              </mat-card>
-          </div>
-      }
-  </div>
-}
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="muted-text">mail_outline</mat-icon>
+                          <span>Email: {{employee.email}}</span>
+                      </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="muted-text">call</mat-icon>
+                          <span>{{employee.phoneNumber}}</span>
+                      </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="muted-text">date_range</mat-icon>
+                          <span>Joined {{employee.joiningDate | date:"dd MMMM, yyyy"}}</span>
+                      </p>
+                      <p fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon class="muted-text">date_range</mat-icon>
+                          <span>Address : {{employee.address}}</span>
+                      </p>
 
-@if (employees) {
-  <div fxLayout="row wrap">
-      <div fxFlex="100" class="p-2">
-          <mat-card class="p-0 text-center">
-              <pagination-controls class="gradus-pagination" [autoHide]="true" [maxSize]="3" (pageChange)="onPageChanged($event)"></pagination-controls>
+                  </div>
+              </div>
           </mat-card>
       </div>
-  </div>
-} @else {
-  <div fxLayout="column" fxLayoutAlign="center center" class="user-spinner">
-      <mat-spinner color="primary"></mat-spinner>
-  </div>
-}
+  }
+</div>

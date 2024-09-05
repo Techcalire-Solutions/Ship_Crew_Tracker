@@ -13,7 +13,7 @@
     <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start stretch" class="form-field-outer">
       <mat-form-field fxFlex="50" class="w-100" appearance="outline">
         <mat-label>Employee</mat-label>
-        <input matInput formControlName="name" required>
+        <input matInput formControlName="name" required />
         <mat-error *ngIf="form.controls['name'].hasError('required')">
           Name is required
         </mat-error>
@@ -21,17 +21,34 @@
 
       <mat-form-field fxFlex="50" class="w-100" appearance="outline">
         <mat-label>Employee Code</mat-label>
-        <input matInput formControlName="employeeCode" required>
+        <input matInput formControlName="employeeCode" required />
         <mat-error *ngIf="form.controls['employeeCode'].hasError('required')">
           Code is required
         </mat-error>
       </mat-form-field>
+
+        <ng-container *ngIf="imageUrl; else noFileTemplate">
+          <input type="file" class="file-input" hidden #fileInput>
+          <img [src]="imageUrl" alt="Image" title="Image" height="50" width="25" (click)="fileInput.click()" />
+          <span class="material-icons" (click)="clearFileInput()">delete</span>
+        </ng-container>
+
+        <ng-template #noFileTemplate>
+          <input type="file" class="file-input" hidden #fileInput (change)="onFileSelected($event)">
+          <span class="material-icons" (click)="fileInput.click()">cloud_upload</span>
+        </ng-template>
+
+
+      <!-- <div fxFlex="100" class="w-100">
+        <label for="file-upload" class="mat-label">Profile Picture</label>
+        <input type="file" id="file-upload" (change)="onFileSelected($event)" accept="image/*" class="custom-file-input" />
+      </div> -->
     </div>
 
     <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start stretch" class="form-field-outer">
       <mat-form-field fxFlex="50" class="w-100" appearance="outline">
         <mat-label>Phone Number</mat-label>
-        <input matInput formControlName="phoneNumber" required>
+        <input matInput formControlName="phoneNumber" required />
         <mat-error *ngIf="form.controls['phoneNumber'].hasError('required')">
           Number is required
         </mat-error>
@@ -39,9 +56,10 @@
 
       <mat-form-field fxFlex="50" class="w-100" appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email">
+        <input matInput formControlName="email" />
       </mat-form-field>
     </div>
+
 
     <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start stretch" class="form-field-outer">
       <mat-form-field appearance="outline" fxFlex="50" class="w-100">
@@ -51,12 +69,11 @@
           <mat-option *ngFor="let option of roles" [value]="option._id">
             {{ option.roleName }}
           </mat-option>
-          <mat-option  *ngIf="roles.length === 0"  (click)="addRole()">
+          <mat-option *ngIf="roles.length === 0" (click)="addRole()">
             <span class="material-icons" style="font-size: 25px; color: rgb(53, 129, 243);">playlist_add</span>
           </mat-option>
         </mat-select>
       </mat-form-field>
-
 
       <mat-form-field appearance="outline" fxFlex="50" class="w-100">
         <mat-label>Type</mat-label>
@@ -65,7 +82,7 @@
           <mat-option *ngFor="let option of deboarding" [value]="option._id">
             {{ option.typeName }}
           </mat-option>
-          <mat-option  *ngIf="deboarding.length === 0"  (click)="addDeboard()">
+          <mat-option *ngIf="deboarding.length === 0" (click)="addDeboard()">
             <span class="material-icons" style="font-size: 25px; color: rgb(53, 129, 243);">playlist_add</span>
           </mat-option>
         </mat-select>
@@ -76,27 +93,24 @@
       <mat-form-field appearance="outline" fxFlex="50" class="w-100">
         <mat-label>Rank</mat-label>
         <mat-select formControlName="rankId">
-          <!-- <mat-form-field  appearance="outline"> -->
-            <input type="text" placeholder="search" style="width: 100%; height: 25px;"(keyup)="searchRank($event)"/>
-          <!-- </mat-form-field> -->
+          <input type="text" placeholder="search" style="width: 100%; height: 25px;" (keyup)="searchRank($event)" />
           <mat-option *ngFor="let option of ranks" [value]="option._id">
             {{ option.rankName }}
           </mat-option>
-          <mat-option  *ngIf="ranks.length === 0"  (click)="addRank()">
+          <mat-option *ngIf="ranks.length === 0" (click)="addRank()">
             <span class="material-icons" style="font-size: 25px; color: rgb(53, 129, 243);">playlist_add</span>
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-
       <mat-form-field appearance="outline" fxFlex="50" class="w-100">
         <mat-label>Department</mat-label>
         <mat-select formControlName="departmentId">
-            <input type="text" placeholder="search" style="width: 100%; height: 25px;" (keyup)="searchDept($event)" />
+          <input type="text" placeholder="search" style="width: 100%; height: 25px;" (keyup)="searchDept($event)" />
           <mat-option *ngFor="let option of departments" [value]="option._id">
             {{ option.departmentName }}
           </mat-option>
-          <mat-option  *ngIf="deboarding.length === 0"  (click)="addDepat()">
+          <mat-option *ngIf="departments.length === 0" (click)="addDepat()">
             <span class="material-icons" style="font-size: 25px; color: rgb(53, 129, 243);">playlist_add</span>
           </mat-option>
         </mat-select>
@@ -105,8 +119,8 @@
 
     <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start stretch" class="form-field-outer">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>JoiningDate</mat-label>
-        <input matInput [matDatepicker]="joining" formControlName="joiningDate">
+        <mat-label>Joining Date</mat-label>
+        <input matInput [matDatepicker]="joining" formControlName="joiningDate" />
         <mat-datepicker-toggle matSuffix [for]="joining"></mat-datepicker-toggle>
         <mat-datepicker #joining></mat-datepicker>
       </mat-form-field>
@@ -117,18 +131,12 @@
       </mat-form-field>
     </div>
 
-
-
-    <!-- <mat-form-field class="w-100">
-      <mat-label>Image url</mat-label>
-      <input matInput formControlName="image">
-    </mat-form-field> -->
-
     <div class="col center-align" style="align-content: center;">
       <mat-slide-toggle formControlName="status">Status</mat-slide-toggle>
     </div>
   </form>
 </div>
+
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
   <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">
     <ng-container *ngIf="updateStatus; else saveMode">
