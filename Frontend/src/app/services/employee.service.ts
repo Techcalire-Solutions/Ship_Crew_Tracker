@@ -140,8 +140,8 @@ export class EmployeeService {
     return this._http.patch(this.url + `/employeemonitoring/checkin/`, data);
   }
 
-  getTodayMonitoringData(): Observable<EmployeeMonitoring[]>{
-    return this._http.get<EmployeeMonitoring[]>(this.url + `/employeemonitoring/gettodays/`);
+  getTodayMonitoringData(search: string): Observable<EmployeeMonitoring[]>{
+    return this._http.get<EmployeeMonitoring[]>(this.url + `/employeemonitoring/gettodays/?search=${search}`);
   }
 
   getEmployeeMonitoringData(id: string): Observable<EmployeeMonitoring[]>{

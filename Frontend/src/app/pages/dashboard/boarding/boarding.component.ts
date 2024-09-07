@@ -21,21 +21,25 @@ export class BoardingComponent implements OnInit, OnDestroy{
     this.getLog()
   }
 
-  search($event: KeyboardEvent) {
-
+  searchText: string = '';
+  search(event: Event) {
+    this.searchText = (event.target as HTMLInputElement).value.trim()
+    this.getLog()
   }
 
   logSub!: Subscription;
   logs: EmployeeMonitoring[] = [];
   getLog(){
-    this.logSub = this.employeeService.getTodayMonitoringData().subscribe(data =>{
+    this.logSub = this.employeeService.getTodayMonitoringData(this.searchText).subscribe(data =>{
       console.log(data);
       this.logs = data;
     })
   }
+
   addRole(_t18: any) {
     throw new Error('Method not implemented.');
   }
+
   deleteRole(arg0: any) {
     throw new Error('Method not implemented.');
   }

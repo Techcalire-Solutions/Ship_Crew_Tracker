@@ -57,20 +57,40 @@ router.get('/gettodays', async (req, res) => {
     startOfDay.setHours(0, 0, 0, 0);
 
     const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999); 
+    endOfDay.setHours(23, 59, 59, 999);
 
-    const employeeMonitoring = await EmployeeMonitoring.find({
+    let whereClause = {
       checkOutTime: { $gte: startOfDay, $lte: endOfDay }
-    }).populate([
-      {path: 'employeeId', selece: 'name'},
-      {path: 'purpose', selece: 'typeName'},
-    ])
+    };
+
+    if (req.query.search && req.query.search !== 'undefined') {
+      const searchTerm = req.query.search.replace(/\s+/g, '').trim().toLowerCase();
+      console.log(`Search Term: ${searchTerm}`); // Debug: Print the search term
+
+      if (searchTerm) { // Ensure searchTerm is not empty
+        whereClause['employeeId.name'] = {
+          $regex: new RegExp(searchTerm, 'i')
+        };
+      }
+    }
+
+    console.log(`Query: ${JSON.stringify(whereClause)}`); // Debug: Print the query
+
+    const employeeMonitoring = await EmployeeMonitoring.find(whereClause).populate([
+      { path: 'employeeId', select: 'name' },
+      { path: 'purpose', select: 'typeName' }
+    ]);
+
+    console.log(`Results: ${JSON.stringify(employeeMonitoring)}`); // Debug: Print the results
 
     res.send(employeeMonitoring);
   } catch (error) {
-    res.send(error)
+    res.status(500).send(error.message);
   }
-})
+});
+
+
+
 
 router.get('/getbyemployee/:id', async (req, res) => {
   try {

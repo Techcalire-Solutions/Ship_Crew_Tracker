@@ -1,3 +1,5 @@
+
+
 .nav-tabs {
   width: 100%;
   border-radius: 20px 20px 0 0; /* Top-left and top-right corners rounded */
@@ -12,7 +14,93 @@
   border-radius: 15px 15px 0 0; /* Match the radius to the container */
 }
 .nav-link.active {
-  background-color: #ddd; /* Highlight color for the active tab */
+  background-color: rgb(192, 203, 214);; /* Highlight color for the active tab */
   font-weight: 800;
-  border: #0e0d0d;
+  // border: #0e0d0d;
+}
+ /* General Styles for Cards */
+ .curvy-card {
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition effects */
+  background: linear-gradient(to bottom right, #ffffff, #f8f9fa); /* Light gradient background */
+}
+
+/* Hover effect to elevate the card */
+.curvy-card:hover {
+  transform: translateY(-5px); /* Slight lift */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.card-body {
+  padding: 20px; /* More spacious padding */
+}
+
+.text-xs {
+  font-size: 0.9rem; /* Small text for the label */
+  letter-spacing: 0.05em; /* Slight spacing for uppercase text */
+  text-transform: uppercase; /* Consistent uppercase */
+}
+
+.font-weight-bold {
+  font-weight: 700; /* Slightly more bold for emphasis */
+}
+
+.h5 {
+  font-size: 1.75rem; /* Larger font for counts */
+  color: #333; /* Darker color for text contrast */
+}
+
+.col-auto i {
+  opacity: 0.7; /* Faded icons for subtlety */
+}
+
+/* Specific Styles for Each Card's Border */
+.border-left-primary {
+  border-left: 5px solid #4e73df; /* Primary color border */
+}
+
+.border-left-success {
+  border-left: 5px solid #1cc88a; /* Success color border */
+}
+
+.border-left-info {
+  border-left: 5px solid #f6c23e; /* Info color border */
+}
+
+.border-left-warning {
+  border-left: 5px solid #cc3668; /* Warning color border */
+}
+
+.border-left-new {
+  border-left: 5px solid #3ed1f6; /* Warning color border */
+}
+
+.border-left-new2 {
+  border-left: 5px solid #3ef6d7; /* Warning color border */
+}
+
+/* Card Titles */
+.text-primary {
+  color: #4e73df !important; /* Primary color */
+}
+
+.text-success {
+  color: #1cc88a !important; /* Success color */
+}
+
+.text-info {
+  color: #cc3668 !important; /* Info color */
+}
+
+.text-warning {
+  color: #f6c23e !important; /* Warning color */
+}
+
+.text-new {
+  color: #3ed1f6 !important; /* Warning color */
+}
+
+.text-new2{
+  color: #3ef6d7 !important; /* Warning color */
 }
