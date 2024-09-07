@@ -33,7 +33,7 @@ async function dataInitialization() {
     }
 
     const roles = [
-        {roleName: 'Officers'}, {roleName: 'Senior Sailor'},{roleName: 'Junior Sailor'}
+        {roleName: 'Officers'}, {roleName: 'Senior Sailor'},{roleName: 'Junior Sailor'},{roleName: 'Civilian'}
    ]
    try {
        const role = await Role.find();
@@ -46,7 +46,10 @@ async function dataInitialization() {
    }
 
    const departments = [
-    {departmentName: 'Civilian'}, {departmentName: 'Regulating'}, {departmentName: 'ND'},{departmentName: 'Gunnery'}, {departmentName:'ASW'}, {departmentName:'Engineering'}, {departmentName:'Electrical'}, {departmentName:'Medical'}, {departmentName:'Sports'}, {departmentName:'Writer'}, {departmentName:'Store'}, {departmentName:'Sailor cook'}, {departmentName:'Officer cook'}, {departmentName:'Hygiene'}, {departmentName:'Aviation'}
+    {departmentName: 'Regulating'}, {departmentName: 'ND'},{departmentName: 'Gunnery'}, {departmentName:'ASW'}, 
+    {departmentName:'Engineering'}, {departmentName:'Electrical'}, {departmentName:'Medical'}, {departmentName:'Sports'}, 
+    {departmentName:'Writer'}, {departmentName:'Store'}, {departmentName:'Sailor cook'}, {departmentName:'Officer cook'}, 
+    {departmentName:'Hygiene'}, {departmentName:'Aviation'}
 ]
 try {
    const department = await Department.find();
@@ -60,9 +63,11 @@ catch (error) {
 
 
 const deboardingTypes = [
-    {typeName: 'Stay in',description: 'Stay in Ship',curfewTime:'1:00 PM-7:00 PM' },
-     {typeName: 'StayOut',description: 'Stay out of Ship',curfewTime:'1:00 PM-7:00 PM' }, 
-     {typeName: 'OnLeave',description: 'on leave',curfewTime:'1:00 PM-7:00 PM' }
+    {typeName: 'In',description: 'Stay in Ship',curfewTime:'1:00 PM-7:00 PM' },
+     {typeName: 'Out',description: 'Stay out of Ship',curfewTime:'1:00 PM-7:00 PM' }, 
+     {typeName: 'OnLeave',description: 'on leave',curfewTime:'1:00 PM-7:00 PM' },
+     {typeName: 'TyDuty',description: 'Ty duty',curfewTime:'1:00 PM-7:00 PM' },
+     {typeName: 'Hospital',description: 'hospital',curfewTime:'1:00 PM-7:00 PM' }
 ]
 try {
    const deboardingType = await DeboardingType.find();

@@ -15,9 +15,16 @@ router.post('/checkout', async(req,res)=>{
         const employee = await Employee.findById(employeeId)
         employee.currentStatus = 'Out';
         const type = await DeboardingType.findById(purpose);
-        if(type.typeName === 'OnLeave'){
+
+        if(type.typeName === 'In' || type.typeName === 'Out'){
+          employee.currentStatus = 'Out';
+        }else if(type.typeName === 'OnLeave'){
+          employee.currentStatus = type.typeName;
           employee.leaveStatus = true;
+        }else{
+          employee.currentStatus = type.typeName;
         }
+
         await employee.save();
         res.json({employee: employee, employeemonitoring: employeemonitoring})       
     } catch (error) {
@@ -26,7 +33,6 @@ router.post('/checkout', async(req,res)=>{
 })
 
 router.patch('/checkin', async (req, res) => {
-  console.log("hhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiii");
   
   const {employeeId, checkInTime} = req.body;
   try {
@@ -73,15 +79,12 @@ router.get('/gettodays', async (req, res) => {
         };
       }
     }
-
-    console.log(`Query: ${JSON.stringify(whereClause)}`); // Debug: Print the query
+  
 
     const employeeMonitoring = await EmployeeMonitoring.find(whereClause).populate([
       { path: 'employeeId', select: 'name' },
       { path: 'purpose', select: 'typeName' }
     ]);
-
-    console.log(`Results: ${JSON.stringify(employeeMonitoring)}`); // Debug: Print the results
 
     res.send(employeeMonitoring);
   } catch (error) {

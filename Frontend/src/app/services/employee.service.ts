@@ -65,6 +65,14 @@ export class EmployeeService {
     return this._http.get<Employee[]>(this.url + `/employee/onleaveemployees`);
   }
 
+  getEmployeeTyDuty():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/tydutyemployees/`);
+  }
+
+  getHospitalEmployee():Observable<Employee[]>{
+    return this._http.get<Employee[]>(this.url + `/employee/hospitalemployees/`);
+  }
+
   getEmployeeByID(id: string):Observable<Employee>{
     return this._http.get<Employee>(this.url + `/employee/findbyid` + id);
   }
@@ -139,6 +147,7 @@ export class EmployeeService {
   employeeCheckIn(data: any){
     return this._http.patch(this.url + `/employeemonitoring/checkin/`, data);
   }
+
 
   getTodayMonitoringData(search: string): Observable<EmployeeMonitoring[]>{
     return this._http.get<EmployeeMonitoring[]>(this.url + `/employeemonitoring/gettodays/?search=${search}`);

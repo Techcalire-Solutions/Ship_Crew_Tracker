@@ -77,6 +77,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
+  tyDutySub!: Subscription;
+  tyDutyCount: number = 0;
+  tyDutyEmployees(){
+    this.tyDutySub = this.employeeService.getEmployeeTyDuty().subscribe(employees =>{
+      this.tyDutyCount = employees.length;
+    })
+  }
+
+  hospitalSub!: Subscription;
+  hospitalCount: number = 0;
+  hospitalEmployees(){
+    this.hospitalSub = this.employeeService.getHospitalEmployee().subscribe(employees =>{
+      this.hospitalCount = employees.length;
+    })
+  }
+
   handleApiCall() {
     this.getEmployees()
     this.getBoardedEmployees()

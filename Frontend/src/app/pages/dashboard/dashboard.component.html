@@ -39,16 +39,32 @@
         </div>
       </div>
       <div class="col-xl-2 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2 curvy-card">
+        <div class="card border-left-warning shadow h-100 py-2 curvy-card">
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                  Outside
+                <div class="row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      Out:
+                    </div>
+                  </div>
+                  <div class="col" style="margin-left: 80px;">
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      {{boardedCount}}
+                    </div>
+                  </div>
                 </div>
                 <div class="row no-gutters align-items-center">
                   <div class="col-auto">
-                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{deboardedCount}}</div>
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      In: <a style="color: black; font-weight:800; font-size: large;">{{stayInCount}}</a>
+                    </div>
+                  </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <div class="col" >
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      Out: <a style="color: black; font-weight:800; font-size: large;">{{stayOutCount}}</a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -60,17 +76,19 @@
         </div>
       </div>
 
+
+
       <div class="col-xl-2 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-2 curvy-card">
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                  StayingIn
+                  Leave
                 </div>
                 <div class="row no-gutters align-items-center">
                   <div class="col-auto">
-                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{stayInCount}}</div>
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{onLeaveCount}}</div>
                   </div>
                 </div>
               </div>
@@ -88,11 +106,11 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-new text-uppercase mb-1">
-                  StayingOut
+                  Ty Duty
                 </div>
                 <div class="row no-gutters align-items-center">
                   <div class="col-auto">
-                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{stayOutCount}}</div>
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{tyDutyCount}}</div>
                   </div>
                 </div>
               </div>
@@ -110,9 +128,9 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-new2 text-uppercase mb-1">
-                  On Leave
+                  Hospital
                 </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{onLeaveCount}}</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{hospitalCount}}</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-comments fa-2x text-gray-300"></i>
