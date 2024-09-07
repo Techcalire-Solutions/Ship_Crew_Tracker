@@ -40,7 +40,9 @@ router.get('/boardedemployees', async(req, res)=>{
 
 router.get('/deboardedemployees', async(req, res)=>{
   try {
-    const employee = await Employee.find({ currentStatus: 'Out'})
+    const employee = await Employee.find({ currentStatus: 'Out'}).populate([
+      {path: 'deboardingTypeId', select: 'typeName'}
+    ])
     res.send(employee)
   } catch (error) {
     res.send(error)

@@ -57,9 +57,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   deboardedSub!: Subscription;
   deboardedCount!: number;
+  stayInCount!: number;
+  stayOutCount!: number;
   getDeBoardedEmployees(){
     this.deboardedSub = this.employeeService.getDeBoardedEmployee().subscribe(employees =>{
+      console.log(employees);
+
       this.deboardedCount = employees.length;
+      this.stayInCount = employees.filter(res=> res.deboardingTypeId.typeName === 'StayIn').length
+      this.stayOutCount = employees.filter(res=> res.deboardingTypeId.typeName === 'StayOut').length
     })
   }
 

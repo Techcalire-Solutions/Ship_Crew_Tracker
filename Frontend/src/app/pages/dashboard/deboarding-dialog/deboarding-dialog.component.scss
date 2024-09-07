@@ -1,44 +1,57 @@
 
 .custom-dialog {
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  padding: 16px;
-  width: 400px;
-}
-
-.dialog-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.dialog-content {
-  font-size: 16px;
-  margin-bottom: 24px;
-}
-
-.dialog-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.cancel-button,
+.custom-card {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.card-title {
+  font-weight:bolder;
+  color: #0a0a0a;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.card-content {
+  padding-top: 10px;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Space between radio buttons */
+}
+
+mat-radio-button {
+  margin: 0 8px;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
 .confirm-button {
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  background-color: #1976d2;
+  color: #fff;
+  transition: background-color 0.3s ease;
 }
 
-.cancel-button {
-  margin-right: 8px;
-  background-color: #e57373;
-  color: #fff;
-  border: none;
-}
-
-.confirm-button {
-  background-color: #64b5f6;
-  color: #fff;
-  border: none;
+.confirm-button:hover {
+  background-color: #1565c0;
 }
