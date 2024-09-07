@@ -1,18 +1,21 @@
-
 .custom-dialog {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  width: 100%;
+  overflow-x: auto; /* Use 'auto' to show scroll only when necessary */
 }
 
 .custom-card {
-  max-width: 400px;
+  // min-width: 500px; /* Set a min-width to trigger overflow */
+  // max-width: none;  /* Remove the max-width constraint */
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
 }
+
 
 .card-title {
   font-weight:bolder;
@@ -54,4 +57,10 @@ mat-radio-button {
 
 .confirm-button:hover {
   background-color: #1565c0;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px; /* Set a max-width that exceeds the normal dialog width */
 }

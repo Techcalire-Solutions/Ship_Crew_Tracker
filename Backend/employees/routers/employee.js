@@ -57,6 +57,24 @@ router.get('/onleaveemployees', async(req, res)=>{
     res.send(error)
   }
 })
+
+router.get('/tydutyemployees', async(req, res)=>{
+  try {
+    const employee = await Employee.find({ currentStatus: 'TyDuty'})
+    res.send(employee)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+router.get('/hospitalemployees', async(req, res)=>{
+  try {
+    const employee = await Employee.find({ currentStatus: 'Hospital'})
+    res.send(employee)
+  } catch (error) {
+    res.send(error)
+  }
+})
    
 router.get('/findall', async(req, res)=>{
     let whereClause = {}
