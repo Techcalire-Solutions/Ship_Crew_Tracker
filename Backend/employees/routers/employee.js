@@ -69,7 +69,7 @@ router.get('/tydutyemployees', async(req, res)=>{
 
 router.get('/hospitalemployees', async(req, res)=>{
   try {
-    const employee = await Employee.find({ currentStatus: 'Hospital'})
+    const employee = await Employee.find({ currentStatus: 'Hospitalised'})
     res.send(employee)
   } catch (error) {
     res.send(error)

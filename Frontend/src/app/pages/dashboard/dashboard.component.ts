@@ -31,6 +31,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getBoardedEmployees();
     this.getDeBoardedEmployees();
     this.onLeaveEmployees();
+    this.hospitalEmployees();
+    this.tyDutyEmployees();
   }
 
   activeTab: string = 'deboarding';
@@ -61,8 +63,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   stayOutCount!: number;
   getDeBoardedEmployees(){
     this.deboardedSub = this.employeeService.getDeBoardedEmployee().subscribe(employees =>{
-      console.log(employees);
-
       this.deboardedCount = employees.length;
       this.stayInCount = employees.filter(res=> res.deboardingTypeId.typeName === 'StayIn').length
       this.stayOutCount = employees.filter(res=> res.deboardingTypeId.typeName === 'StayOut').length
@@ -70,10 +70,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onLeaveSub!: Subscription;
-  onLeaveCount!: number;
+  onLeaveCount: number = 1;
   onLeaveEmployees(){
     this.onLeaveSub = this.employeeService.getOnLeaveEmployee().subscribe(employees =>{
-      this.onLeaveCount = employees.length;
+      // this.onLeaveCount = employees.length;
     })
   }
 
@@ -89,6 +89,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   hospitalCount: number = 0;
   hospitalEmployees(){
     this.hospitalSub = this.employeeService.getHospitalEmployee().subscribe(employees =>{
+      console.log(employees);
+
       this.hospitalCount = employees.length;
     })
   }
@@ -98,6 +100,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getBoardedEmployees()
     this.getDeBoardedEmployees()
     this.onLeaveEmployees()
+    this.hospitalEmployees()
+    this.tyDutyEmployees()
   }
 
   ngOnDestroy(): void {

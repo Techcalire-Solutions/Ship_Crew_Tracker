@@ -46,6 +46,7 @@ router.patch('/checkin', async (req, res) => {
       await em.save();
       const employee = await Employee.findById(employeeId);
       employee.currentStatus = 'In';
+      employee.leaveStatus = false;
       await employee.save();
 
       res.json({ employee: employee, employeemonitoring: em})
