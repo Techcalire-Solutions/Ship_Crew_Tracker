@@ -29,8 +29,8 @@
                 </thead>
                 <tbody>
                   @for (item of logs; track item) {
-                    <tr  [ngClass]="{'out-status': item.currentStatus }">
-                      <td> {{item.employeeId.name}} </td>
+                    <tr  [ngClass]="{'out-status': !item.currentStatus  }">
+                      <td> {{item.employeeId?.name}} </td>
                       <td> {{item.checkOutTime | date: 'dd/MM/yyyy, hh:mm:ss'}} </td>
                       <td> {{item.checkInTime | date: 'dd/MM/yyyy, hh:mm:ss'}} </td>
                       <td> {{item.purpose.typeName}} </td>

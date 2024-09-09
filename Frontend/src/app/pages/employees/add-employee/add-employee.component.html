@@ -30,7 +30,7 @@
         <ng-container *ngIf="imageUrl; else noFileTemplate">
           <input type="file" class="file-input" hidden #fileInput>
           <img [src]="imageUrl" alt="Image" title="Image" height="50" width="25" (click)="fileInput.click()" />
-          <span class="material-icons" (click)="clearFileInput()">delete</span>
+          <!-- <span class="material-icons" (click)="clearFileInput()">delete</span> -->
         </ng-container>
 
         <ng-template #noFileTemplate>

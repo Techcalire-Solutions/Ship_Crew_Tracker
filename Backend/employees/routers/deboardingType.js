@@ -58,10 +58,9 @@ router.get('/findall', async(req, res)=>{
 })
 
 router.patch('/edit/:id', async (req, res) => {
-  const { typeName, description, curfewTime, status } = req.body;
+  const { description, curfewTime, status } = req.body;
   try {
     const deboardingtype = await DeboardingType.findByIdAndUpdate(req.params.id)
-    deboardingtype.typeName = typeName;
     deboardingtype.description = description;
     deboardingtype.status = status;
     deboardingtype.curfewTime = curfewTime;

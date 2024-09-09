@@ -17,9 +17,9 @@ export const routes: Routes = [
         data: { breadcrumb: 'Ships' }
       },
       {
-        path: 'role',
+        path: 'designation',
         loadComponent: () => import('./role/role.component').then(c => c.RoleComponent),
-        data: { breadcrumb: 'Roles' }
+        data: { breadcrumb: 'Designations' }
       },
       {
         path: 'deboardingtype',

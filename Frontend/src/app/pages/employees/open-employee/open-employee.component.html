@@ -11,9 +11,9 @@
         <img mat-card-image class="profile-image" [src]="employee.imageUrl ? url + employee.imageUrl : defaultUser" alt="Profile Photo">
 
         <mat-card-content class="py-3">
-          <h2 class="text-center">{{employee.rankId.rankName}} {{employee.name}}</h2>
-          <h3 class="text-center primary-color">{{employee.roleId.roleName}}</h3>
-          <h3 class="text-center primary-color">{{employee.departmentId.departmentName}}</h3>
+          <h2 class="text-center">{{employee.rankId?.rankName}} {{employee.name}}</h2>
+          <h3 class="text-center primary-color">{{employee.roleId?.roleName}}</h3>
+          <h3 class="text-center primary-color">{{employee.departmentId?.departmentName}}</h3>
           <h4 class="muted-text py-1">About:</h4>
           <div fxFlex="70" fxLayout="column" class="user-details transition-2" [class.blocked]="!employee.status">
             <p fxLayout="row" fxLayoutAlign="start center">

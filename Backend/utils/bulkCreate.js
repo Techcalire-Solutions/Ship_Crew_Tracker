@@ -6,18 +6,18 @@ const DeboardingType = require('../employees/models/deboardingType')
 
 
 async function dataInitialization() {
-    const ships = [
-        { shipName: 'INS DHRUV', shipCode: 'DHRUV', noOfEmployees: 400 }
-    ];
+    // const ships = [
+    //     { shipName: 'INS DHRUV', shipCode: 'DHRUV', noOfEmployees: 400 }
+    // ];
 
-    try {
-        const ship = await Ships.find();  
-        if (ship.length === 0) {   
-            await Ships.insertMany(ships);  // Use await instead of callback
-        }
-    } catch (err) {
-        console.error('Error during data initialization:', err);
-    }
+    // try {
+    //     const ship = await Ships.find();  
+    //     if (ship.length === 0) {   
+    //         await Ships.insertMany(ships);  // Use await instead of callback
+    //     }
+    // } catch (err) {
+    //     console.error('Error during data initialization:', err);
+    // }
 
     const ranks = [
          {rankName: 'Captain'}, {rankName: 'Commander'}, {rankName: 'Chief Engineer'},{rankName: 'Chief Officer'}
@@ -29,7 +29,7 @@ async function dataInitialization() {
         }
     } 
     catch (error) {
-        console.error('Error during data initialization:', err);
+        console.error('Error during data initialization:', error);
     }
 
     const roles = [
@@ -42,42 +42,42 @@ async function dataInitialization() {
        }
    } 
    catch (error) {
-       console.error('Error during data initialization:', err);
+       console.error('Error during data initialization:', error);
    }
 
    const departments = [
     {departmentName: 'Regulating'}, {departmentName: 'ND'},{departmentName: 'Gunnery'}, {departmentName:'ASW'}, 
     {departmentName:'Engineering'}, {departmentName:'Electrical'}, {departmentName:'Medical'}, {departmentName:'Sports'}, 
     {departmentName:'Writer'}, {departmentName:'Store'}, {departmentName:'Sailor cook'}, {departmentName:'Officer cook'}, 
-    {departmentName:'Hygiene'}, {departmentName:'Aviation'}
-]
-try {
-   const department = await Department.find();
-   if(department.length === 0) {
-       await Department.insertMany(departments); // Use await instead of callback
-   }
-} 
-catch (error) {
-   console.error('Error during data initialization:', err);
-}
+    {departmentName:'Hygiene'}, {departmentName:'Aviation'}, {departmentName:'Communication'}
+    ]
+    try {
+        const department = await Department.find();
+        if(department.length === 0) {
+            await Department.insertMany(departments); // Use await instead of callback
+        }
+    } 
+    catch (error) {
+    console.error('Error during data initialization:', error);
+    }
 
 
-const deboardingTypes = [
-    {typeName: 'In',description: 'Stay in Ship',curfewTime:'1:00 PM-7:00 PM' },
-     {typeName: 'Out',description: 'Stay out of Ship',curfewTime:'1:00 PM-7:00 PM' }, 
-     {typeName: 'OnLeave',description: 'on leave',curfewTime:'1:00 PM-7:00 PM' },
-     {typeName: 'TyDuty',description: 'Ty duty',curfewTime:'1:00 PM-7:00 PM' },
-     {typeName: 'Hospital',description: 'hospital',curfewTime:'1:00 PM-7:00 PM' }
-]
-try {
-   const deboardingType = await DeboardingType.find();
-   if(deboardingType.length === 0) {
-       await DeboardingType.insertMany(deboardingTypes); // Use await instead of callback
-   }
-} 
-catch (error) {
-   console.error('Error during data initialization:', err);
-}
+    const deboardingTypes = [
+        {typeName: 'In',description: 'Stay in Ship',curfewTime:'1:00 PM-7:00 PM' },
+        {typeName: 'Out',description: 'Stay out of Ship',curfewTime:'1:00 PM-7:00 PM' }, 
+        {typeName: 'OnLeave',description: 'on leave',curfewTime:'1:00 PM-7:00 PM' },
+        {typeName: 'TyDuty',description: 'Ty duty',curfewTime:'1:00 PM-7:00 PM' },
+        {typeName: 'Hospital',description: 'hospital',curfewTime:'1:00 PM-7:00 PM' }
+    ]
+    try {
+    const deboardingType = await DeboardingType.find();
+    if(deboardingType.length === 0) {
+        await DeboardingType.insertMany(deboardingTypes); // Use await instead of callback
+    }
+    } 
+    catch (error) {
+    console.error('Error during data initialization:', error);
+    }
 
 
 

@@ -2,6 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "ship-crew-tracker": "./app/index.js"
+  },
   "scripts": {
     "start": "nodemon ./app/index.js"
   },

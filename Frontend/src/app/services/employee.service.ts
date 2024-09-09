@@ -156,4 +156,12 @@ export class EmployeeService {
   getEmployeeMonitoringData(id: string): Observable<EmployeeMonitoring[]>{
     return this._http.get<EmployeeMonitoring[]>(this.url+ `/employeemonitoring/getbyemployee/`+ id);
   }
+
+  getStayIn(): Observable<EmployeeMonitoring[]>{
+    return this._http.get<EmployeeMonitoring[]>(this.url+ `/employeemonitoring/getstayin/`);
+  }
+
+  getStayOut(): Observable<EmployeeMonitoring[]>{
+    return this._http.get<EmployeeMonitoring[]>(this.url+ `/employeemonitoring/getstayout/`);
+  }
 }

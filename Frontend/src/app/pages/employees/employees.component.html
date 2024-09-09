@@ -27,7 +27,7 @@
                       @if (!employee.status) {
                           User blocked
                       } @else {
-                        {{employee.rankId.rankName}} {{employee.name}} {{employee.roleId.roleName}} - {{employee.departmentId?.departmentName}}
+                        {{employee.rankId?.rankName}} {{employee.name}} {{employee.roleId?.roleName}} - {{employee.departmentId?.departmentName}}
                       }
                   </h5>
                   <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" class="default-contrast">
@@ -83,6 +83,7 @@
 
                   </div>
               </div>
+              
           </mat-card>
       </div>
   }
