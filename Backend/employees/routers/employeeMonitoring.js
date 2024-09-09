@@ -16,7 +16,7 @@ router.post('/checkout', async(req,res)=>{
         employee.currentStatus = 'Out';
         const type = await DeboardingType.findById(purpose);
 
-        if(type.typeName === 'In' || type.typeName === 'Out'){
+        if(type.typeName === 'StayIn' || type.typeName === 'StayOut'){
           employee.currentStatus = 'Out';
         }else if(type.typeName === 'OnLeave'){
           employee.currentStatus = type.typeName;
@@ -33,12 +33,10 @@ router.post('/checkout', async(req,res)=>{
 })
 
 router.patch('/checkin', async (req, res) => {
-  
   const {employeeId, checkInTime} = req.body;
   try {
     const em = await EmployeeMonitoring.findOne({employeeId: employeeId, status: false})
-    console.log(em);
-    
+
     if(em){
       em.checkInTime = checkInTime;
       em.currentStatus = true;
@@ -100,6 +98,41 @@ router.get('/getbyemployee/:id', async (req, res) => {
   try {
     const employeeMonitoring = await EmployeeMonitoring.find({
       employeeId: req.params.id
+    }).populate([
+      { path: 'employeeId', select: 'name' }, // Corrected 'selece' to 'select'
+      { path: 'purpose', select: 'typeName' }, // Corrected 'selece' to 'select'
+    ]);
+
+    res.send(employeeMonitoring);
+  } catch (error) {
+    res.status(500).send(error); // Optionally, you can add status code for error
+  }
+});
+
+
+router.get('/getstayout', async (req, res) => {
+  try {
+    let purpose = await DeboardingType.findOne({ typeName: 'StayOut' });
+    let id = purpose._id;
+    const employeeMonitoring = await EmployeeMonitoring.find({
+      currentStatus: false, purpose: id
+    }).populate([
+      { path: 'employeeId', select: 'name' }, // Corrected 'selece' to 'select'
+      { path: 'purpose', select: 'typeName' }, // Corrected 'selece' to 'select'
+    ]);
+
+    res.send(employeeMonitoring);
+  } catch (error) {
+    res.status(500).send(error); // Optionally, you can add status code for error
+  }
+});
+
+router.get('/getstayin', async (req, res) => {
+  try {
+    let purpose = await DeboardingType.findOne({ typeName: 'StayIn' });
+    let id = purpose._id;
+    const employeeMonitoring = await EmployeeMonitoring.find({
+      currentStatus: false, purpose: id
     }).populate([
       { path: 'employeeId', select: 'name' }, // Corrected 'selece' to 'select'
       { path: 'purpose', select: 'typeName' }, // Corrected 'selece' to 'select'

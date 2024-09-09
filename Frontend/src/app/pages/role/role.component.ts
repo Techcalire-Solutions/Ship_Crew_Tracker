@@ -43,7 +43,6 @@ export class RoleComponent implements OnInit, OnDestroy{
   roles: Role[] = [];
   getRole(){
     this.roleSub = this.employeeService.getRole(this.searchText, this.currentPage, this.pageSize).subscribe((role: any) =>{
-      console.log(role);
       this.roles = role.items
     })
   }
