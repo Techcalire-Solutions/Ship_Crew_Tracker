@@ -179,8 +179,9 @@ export class AddEmployeeComponent {
   deboarding: DeboardingType[] = [];
   getDeboardingType(){
     this.deboardSub = this.employeeService.getDeboardingType(this.filteDeboard).subscribe(deboardingType =>{
-      this.deboarding = deboardingType;
-      console.log(this.deboarding);
+      this.deboarding = deboardingType.filter(item => {
+        return item.typeName === 'StayIn' || item.typeName === 'StayOut';
+      });
     });
   }
 
