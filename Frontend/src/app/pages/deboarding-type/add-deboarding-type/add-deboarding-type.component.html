@@ -11,7 +11,11 @@
     <div fxLayout="column" class="form-field-outer">
       <mat-form-field class="w-100" appearance="outline">
           <mat-label> DeboardingType </mat-label>
-          <input matInput formControlName="typeName" required>
+          @if (deboardingtype?._id) {
+            <input matInput formControlName="typeName" required readonly>
+          } @else {
+            <input matInput formControlName="typeName" required>
+          }
           <mat-error>
               @if (form.controls['typeName'].hasError('required')) {
                   Name is required
