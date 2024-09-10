@@ -41,9 +41,8 @@ const em = require('../employees/routers/employeeMonitoring');
 app.use('/employeemonitoring', em)
 
 app.use('/employees/images', express.static(path.join(__dirname, '../employees/images')));
-
-const dbURI = 'mongodb://localhost:27017/ship-crew-tracker_DB'; 
-mongoose.connect('mongodb://127.0.0.1:27017/test', { useNewUrlParser: true, useUnifiedTopology: true })
+; 
+mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Successfully connected to MongoDB'))
   .catch(err => console.error('Connection error', err));
 
@@ -62,7 +61,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/test', { useNewUrlParser: true, useU
 
 // connectDB();
 
-app.listen(8000, (err)=>{
+app.listen(process.env.PORT, (err)=>{
     if(err) console.log(err)
     else console.log("Server is running on 8000")
 })
