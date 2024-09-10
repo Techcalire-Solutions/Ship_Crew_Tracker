@@ -22,6 +22,7 @@ import { environment } from '../../../../environments/environment';
 import { DeboardingDialogComponent } from '../deboarding-dialog/deboarding-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeMonitoring } from '../../../common/interfaces/employee-monitoring';
+import { OpenEmployeeComponent } from '../../employees/open-employee/open-employee.component';
 
 @Component({
   selector: 'app-deboarding',
@@ -132,6 +133,22 @@ export class DeboardingComponent implements OnInit, OnDestroy {
       this.outEmployees = employees;
       this.stayOutCount = employees.length;
     })
+  }
+
+  openEmployee(emp: Employee){
+    let dialogRef = this.dialog.open(OpenEmployeeComponent, {
+      data: {employee: emp}
+    });
+    dialogRef.afterClosed().subscribe(res => {
+    });
+  }
+
+  onMouseEnter(event: MouseEvent): void {
+    (event.target as HTMLElement).style.color = '#011b36'; // Change color on hover
+  }
+
+  onMouseLeave(event: MouseEvent): void {
+    (event.target as HTMLElement).style.color = '#007bff'; // Revert color on leave
   }
 
   ngOnDestroy(): void {

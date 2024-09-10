@@ -114,3 +114,14 @@ mat-list-option {
   top: 10px; /* Position from the top of the card */
   right: 10px; /* Position from the right of the card */
 }
+
+.clickable-link {
+  cursor: pointer; /* Makes the cursor look like a pointer */
+  text-decoration: underline; /* Underlines the text */
+  color: #007bff; /* Use a color that indicates a link, similar to bootstrap blue */
+  transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+.clickable-link:hover {
+  color: #022d5a; /* Darker shade on hover to indicate interaction */
+}

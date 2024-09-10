@@ -101,27 +101,27 @@
           <h2 class="text-center">{{selectedEmployee.rankId?.rankName}}{{selectedEmployee.name}} -- {{selectedEmployee.currentStatus}}</h2>
           <h4 class="text-center primary-color">{{selectedEmployee.roleId?.roleName}}</h4>
           <h4 class="text-center primary-color">{{selectedEmployee.departmentId?.departmentName}}</h4>
-          <h4 class="muted-text py-1">About:</h4>
+          <!-- <h4 class="muted-text py-1">About:</h4>
           <p class="text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
           <div fxLayoutAlign="end center">
               <a routerLink="user-info" mat-stroked-button color="primary">
                   More <mat-icon>arrow_right_alt</mat-icon>
               </a>
-          </div>
+          </div> -->
       </mat-card-content>
       <mat-divider></mat-divider>
       <div class="p-3">
         <div fxLayoutAlign="space-between center">
-          <div>Followers:</div>
-          <strong class="d-inline-block">675</strong>
+          <div>PhoneNumber:</div>
+          <strong class="d-inline-block">{{selectedEmployee.phoneNumber}}</strong>
         </div>
         <div fxLayoutAlign="space-between center" class="mt-2">
-          <div>Following:</div>
-          <strong class="d-inline-block">428</strong>
+          <div>Email:</div>
+          <strong class="d-inline-block">{{selectedEmployee.email}}</strong>
         </div>
         <div fxLayoutAlign="space-between center" class="mt-2">
-          <div>Projects:</div>
-          <strong class="d-inline-block">27</strong>
+          <div>Address:</div>
+          <strong class="d-inline-block">{{selectedEmployee.address}}</strong>
         </div>
       </div>
       <mat-divider></mat-divider>
@@ -138,7 +138,8 @@
             <mat-list>
               @for (emp of outEmployees; track emp) {
                 <mat-list-item>
-                  {{emp.employeeId.name}}
+                  <a (click)="openEmployee(emp.employeeId)" style="cursor: pointer; text-decoration: underline; color: #007bff;
+                    transition: color 0.3s;" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)"> {{ emp.employeeId.name }} </a>
                 </mat-list-item>
               }
             </mat-list>
@@ -157,8 +158,11 @@
           <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
             <mat-list>
               @for (emp of inEmployees; track employeeService) {
-                <mat-list-item>
-                  {{emp.employeeId.name}}
+                <mat-list-item (click)="openEmployee(emp.employeeId)">
+                  <a (click)="openEmployee(emp.employeeId)" style="cursor: pointer; text-decoration: underline;
+                  color: #007bff; transition: color 0.3s;" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)">
+                    {{ emp.employeeId.name }}
+                  </a>
                 </mat-list-item>
               }
             </mat-list>
