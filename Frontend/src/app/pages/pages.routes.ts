@@ -24,12 +24,12 @@ export const routes: Routes = [
       {
         path: 'deboardingtype',
         loadComponent: () => import('./deboarding-type/deboarding-type.component').then(c => c.DeboardingTypeComponent),
-        data: { breadcrumb: 'DeboardingTypes' }
+        data: { breadcrumb: 'In & Out Types' }
       },
       {
         path: 'employees',
         loadComponent: () => import('./employees/employees.component').then(c => c.EmployeesComponent),
-        data: { breadcrumb: 'Employees' }
+        data: { breadcrumb: 'Officers & Sailors' }
       },
       {
         path: 'deboarding',
