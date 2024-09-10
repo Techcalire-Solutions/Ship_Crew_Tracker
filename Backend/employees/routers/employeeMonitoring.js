@@ -128,16 +128,23 @@ router.get('/getstayout', async (req, res) => {
 });
 
 router.get('/getstayin', async (req, res) => {
+  console.log("hiiiiiiiiiiiiiiiiiii");
+  
   try {
     let purpose = await DeboardingType.findOne({ typeName: 'StayIn' });
+    console.log(purpose);
+    
     let id = purpose._id;
+    console.log(id);
+    
     const employeeMonitoring = await EmployeeMonitoring.find({
       currentStatus: false, purpose: id
     }).populate([
       { path: 'employeeId', select: 'name' }, // Corrected 'selece' to 'select'
       { path: 'purpose', select: 'typeName' }, // Corrected 'selece' to 'select'
     ]);
-
+    console.log(employeeMonitoring);
+    
     res.send(employeeMonitoring);
   } catch (error) {
     res.status(500).send(error); // Optionally, you can add status code for error
