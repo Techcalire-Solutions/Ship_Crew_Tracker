@@ -14,6 +14,7 @@
         </mat-button-toggle-group>
     </div>
     <div fxLayout="row" class="col">
+      
       <form class="user-search" [class.show]="controls.value == 'search'">
         <mat-form-field class="user-search-input">
             <input matInput placeholder="Search rank by name..." name="search" (keyup)="search($event)">
@@ -39,10 +40,10 @@
                     <tr>
                       <td> {{rank.rankName}} </td>
                       <td>
-                        <button mat-menu-item (click)="addRank(rank)">
+                        <button mat-menu-item (click)="addRank(rank)" style="color: rgb(11, 158, 11);">
                           <mat-icon>mode_edit</mat-icon>
                         </button>
-                        <button mat-menu-item (click)="deleteRank(rank._id);">
+                        <button mat-menu-item (click)="deleteRank(rank._id);" style="color: rgb(212, 53, 53);">
                           <mat-icon>delete</mat-icon>
                         </button>
                       </td>

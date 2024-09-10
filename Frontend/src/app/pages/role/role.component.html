@@ -35,17 +35,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let role of roles">
-                        <td> {{role.roleName}} </td>
-                        <td>
-                          <button mat-menu-item (click)="addRole(role)">
-                            <mat-icon>mode_edit</mat-icon>
-                          </button>
-                          <button mat-menu-item (click)="deleteRole(role._id);">
-                            <mat-icon>delete</mat-icon>
-                          </button>
-                        </td>
-                    </tr>
+                  <tr *ngFor="let role of roles">
+                    <td> {{ role.roleName }} </td>
+                    <td>
+                      <button mat-menu-item (click)="addRole(role)" style="color: rgb(11, 158, 11);">
+                        <mat-icon>mode_edit</mat-icon>
+                      </button>
+                      <button mat-menu-item (click)="deleteRole(role._id)" style="color: rgb(212, 53, 53);">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                  
                 </tbody>
             </table>
         </section>

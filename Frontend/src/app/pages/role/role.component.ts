@@ -64,7 +64,9 @@ export class RoleComponent implements OnInit, OnDestroy{
 
   addRole(role: Role | null){
     let dialogRef = this.dialog.open(AddRoleComponent, {
-      data: role
+      data: role,
+      width: '30px', 
+      height: '300px'  
     });
     dialogRef.afterClosed().subscribe(res => {
       this.getRole();
