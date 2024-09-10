@@ -74,7 +74,7 @@ export class EmployeeService {
   }
 
   getEmployeeByID(id: string):Observable<Employee>{
-    return this._http.get<Employee>(this.url + `/employee/findbyid` + id);
+    return this._http.get<Employee>(this.url + `/employee/findbyid/` + id);
   }
 
   uploadEmployeeImage(file: any): Observable<any> {

@@ -8,6 +8,9 @@ import $ from 'jquery';
 import { DeboardingComponent } from './deboarding/deboarding.component';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
+import { Employee } from '../../common/interfaces/employee';
+import { OpenEmployeeComponent } from '../employees/open-employee/open-employee.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -25,7 +28,7 @@ import { EmployeeService } from '../../services/employee.service';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  employeeService = inject(EmployeeService)
+  employeeService = inject(EmployeeService);
   ngOnInit(): void {
     this.getEmployees();
     this.getBoardedEmployees();
@@ -110,6 +113,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.stayOutCount = employees.length;
     })
   }
+
 
   handleApiCall() {
     this.getEmployees()

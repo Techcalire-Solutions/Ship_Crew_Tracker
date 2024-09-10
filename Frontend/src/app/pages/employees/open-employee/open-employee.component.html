@@ -1,14 +1,16 @@
-<mat-dialog-content class="scrollable-content">
+<mat-dialog-content class="scrollable-content" *ngIf="employee">
   <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
     <button mat-raised-button color="warn" (click)="close()" type="button">
-      <mat-icon>close</mat-icon>
+      <mat-icon style="margin-left: 0; margin-right: 0;">close</mat-icon>
     </button>
   </div>
   <div fxLayout="row wrap">
     <div fxFlex="100" fxFlex.sm="35" fxFlex.md="30" fxFlex.gt-md="25" class="p-2">
       <mat-card>
         <!-- Profile Image -->
-        <img mat-card-image class="profile-image" [src]="employee.imageUrl ? url + employee.imageUrl : defaultUser" alt="Profile Photo">
+        <ng-container>
+          <img mat-card-image class="profile-image" [src]="employee.imageUrl ? url + employee.imageUrl : defaultUser" alt="Profile Photo">
+        </ng-container>
 
         <mat-card-content class="py-3">
           <h2 class="text-center">{{employee.rankId?.rankName}} {{employee.name}}</h2>

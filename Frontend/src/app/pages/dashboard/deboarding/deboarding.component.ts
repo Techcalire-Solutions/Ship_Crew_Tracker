@@ -21,6 +21,8 @@ import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { environment } from '../../../../environments/environment';
 import { DeboardingDialogComponent } from '../deboarding-dialog/deboarding-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EmployeeMonitoring } from '../../../common/interfaces/employee-monitoring';
+import { OpenEmployeeComponent } from '../../employees/open-employee/open-employee.component';
 
 @Component({
   selector: 'app-deboarding',
@@ -58,6 +60,8 @@ export class DeboardingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getEmployees();
+    this.stayInEmployees();
+    this.stayOutEmployees();
   }
 
   employeeSub!: Subscription;
@@ -77,10 +81,6 @@ export class DeboardingComponent implements OnInit, OnDestroy {
     this.empIdSub = this.employeeService.getEmployeeByID(id).subscribe(emp => {
       this.image = emp.imageUrl;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.employeeSub.unsubscribe();
   }
 
   selectedEmployee!: Employee
@@ -113,5 +113,47 @@ export class DeboardingComponent implements OnInit, OnDestroy {
           alert("Failed to check in employee. Please try again.");
         });
     }
+  }
+
+  stayInSub!: Subscription;
+  stayInCount: number = 0;
+  inEmployees: EmployeeMonitoring[] = [];
+  stayInEmployees(){
+    this.stayInSub = this.employeeService.getStayIn().subscribe(employees =>{
+      this.inEmployees = employees;
+      this.stayInCount = employees.length;
+    })
+  }
+
+  stayOutSub!: Subscription;
+  stayOutCount: number = 0;
+  outEmployees: EmployeeMonitoring[] = [];
+  stayOutEmployees(){
+    this.stayOutSub = this.employeeService.getStayOut().subscribe(employees =>{
+      this.outEmployees = employees;
+      this.stayOutCount = employees.length;
+    })
+  }
+
+  openEmployee(emp: Employee){
+    let dialogRef = this.dialog.open(OpenEmployeeComponent, {
+      data: {employee: emp}
+    });
+    dialogRef.afterClosed().subscribe(res => {
+    });
+  }
+
+  onMouseEnter(event: MouseEvent): void {
+    (event.target as HTMLElement).style.color = '#011b36'; // Change color on hover
+  }
+
+  onMouseLeave(event: MouseEvent): void {
+    (event.target as HTMLElement).style.color = '#007bff'; // Revert color on leave
+  }
+
+  ngOnDestroy(): void {
+    this.employeeSub.unsubscribe();
+    this.stayInSub?.unsubscribe();
+    this.stayOutSub?.unsubscribe();
   }
 }

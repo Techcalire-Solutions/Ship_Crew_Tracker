@@ -27,20 +27,32 @@ export class OpenEmployeeComponent implements OnInit, OnDestroy {
   url = environment.baseUrl;
   public defaultUser = 'img/users/default-user.jpg';
   ngOnInit(): void {
-    this.employee = this.data.employee;
-    this.getLog();
+    console.log(this.data.employee._id);
+
+    this.getEmployee(this.data.employee._id)
+  }
+
+  getEmployee(id: string){
+    console.log(id);
+
+    this.employeeService.getEmployeeByID(id).subscribe(res => {
+      console.log(res);
+
+      this.employee = res;
+      console.log(this.employee);
+      this.getLog(id);
+    });
   }
 
   logs: EmployeeMonitoring[] = [];
-  getLog(){
-    this.employeeService.getEmployeeMonitoringData(this.employee._id).subscribe(data =>{
+  getLog(id: string){
+    this.employeeService.getEmployeeMonitoringData(id).subscribe(data =>{
       console.log(data);
       this.logs = data;
     });
   }
 
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
   }
 
   close(){

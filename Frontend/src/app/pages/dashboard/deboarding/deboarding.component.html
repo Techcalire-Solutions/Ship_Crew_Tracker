@@ -1,4 +1,4 @@
-
+<!--
 <div fxLayout="row" cdkDropListGroup style="background-color: rgb(192, 203, 214);;">
   <div fxLayout="row wrap">
     @if(selectedEmployee){
@@ -33,6 +33,41 @@
         </div>
         <mat-divider></mat-divider>
       </mat-card>
+    }@else{
+      <div fxFlex="50" class="p-2">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Employees</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-selection-list>
+              @for (emp of employees; track emp) {
+                <mat-list>
+                  <mat-list-item>Item 1</mat-list-item>
+              </mat-list>
+              }
+            </mat-selection-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex="50" class="p-2">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Employees</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
+              @for (emp of employees; track emp) {
+                      <mat-list>
+                          <mat-list-item>Item 1</mat-list-item>
+                          <mat-list-item>Item 2</mat-list-item>
+                          <mat-list-item>Item 3</mat-list-item>
+                      </mat-list>
+              }
+            </mat-selection-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
     }
 </div>
 
@@ -56,4 +91,102 @@
 </div>
 
 
+</div> -->
+
+<div fxLayout="row" fxLayoutGap="16px" cdkDropListGroup style="background-color: rgb(192, 203, 214);">
+  @if(selectedEmployee){
+    <mat-card>
+      <img mat-card-image class="profile-image" [src]="url+selectedEmployee.imageUrl" alt="Photo 1">
+      <mat-card-content class="py-3">
+          <h2 class="text-center">{{selectedEmployee.rankId?.rankName}}{{selectedEmployee.name}} -- {{selectedEmployee.currentStatus}}</h2>
+          <h4 class="text-center primary-color">{{selectedEmployee.roleId?.roleName}}</h4>
+          <h4 class="text-center primary-color">{{selectedEmployee.departmentId?.departmentName}}</h4>
+          <!-- <h4 class="muted-text py-1">About:</h4>
+          <p class="text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <div fxLayoutAlign="end center">
+              <a routerLink="user-info" mat-stroked-button color="primary">
+                  More <mat-icon>arrow_right_alt</mat-icon>
+              </a>
+          </div> -->
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <div class="p-3">
+        <div fxLayoutAlign="space-between center">
+          <div>PhoneNumber:</div>
+          <strong class="d-inline-block">{{selectedEmployee.phoneNumber}}</strong>
+        </div>
+        <div fxLayoutAlign="space-between center" class="mt-2">
+          <div>Email:</div>
+          <strong class="d-inline-block">{{selectedEmployee.email}}</strong>
+        </div>
+        <div fxLayoutAlign="space-between center" class="mt-2">
+          <div>Address:</div>
+          <strong class="d-inline-block">{{selectedEmployee.address}}</strong>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-card>
+  }@else{
+    <div fxFlex="25" class="p-2">
+      <mat-card class="position-relative">
+        <mat-card-header>
+          <mat-card-title>Deboarded - LivingOut</mat-card-title>
+          <span class="count-circle top-right">{{stayOutCount}}</span>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-selection-list>
+            <mat-list>
+              @for (emp of outEmployees; track emp) {
+                <mat-list-item>
+                  <a (click)="openEmployee(emp.employeeId)" style="cursor: pointer; text-decoration: underline; color: #007bff;
+                    transition: color 0.3s;" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)"> {{ emp.employeeId.name }} </a>
+                </mat-list-item>
+              }
+            </mat-list>
+          </mat-selection-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div fxFlex="25" class="p-2">
+      <mat-card class="position-relative">
+        <mat-card-header>
+          <mat-card-title>Deboarded - LivingIn</mat-card-title>
+          <span class="count-circle top-right">{{stayInCount}}</span>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
+            <mat-list>
+              @for (emp of inEmployees; track employeeService) {
+                <mat-list-item (click)="openEmployee(emp.employeeId)">
+                  <a (click)="openEmployee(emp.employeeId)" style="cursor: pointer; text-decoration: underline;
+                  color: #007bff; transition: color 0.3s;" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)">
+                    {{ emp.employeeId.name }}
+                  </a>
+                </mat-list-item>
+              }
+            </mat-list>
+          </mat-selection-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+  <div fxFlex="50" class="p-2">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Officers & Sailors</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
+          @for (emp of employees; track emp) {
+            <mat-list-option [value]="emp" [ngClass]="{'out-status': emp.currentStatus != 'In'}">
+              <img matListItemAvatar [src]="emp.imageUrl ? (url + emp.imageUrl) : userImage" alt="image">
+              <div matListItemTitle>{{emp.rankId?.rankName}} {{emp.name}}</div>
+              <div matListItemLine>Role {{emp.roleId?.roleName}}</div>
+            </mat-list-option>
+          }
+        </mat-selection-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

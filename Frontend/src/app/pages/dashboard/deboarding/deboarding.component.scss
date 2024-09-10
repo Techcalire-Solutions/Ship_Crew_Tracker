@@ -90,3 +90,38 @@ mat-list-option {
 .out-status {
   background-color: #f8d7da; /* Light red background color */
 }
+
+
+.position-relative {
+  position: relative; /* Ensures positioning context for absolute children */
+}
+
+.count-circle {
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  background-color: #3f51b5; /* Primary color or any other color you prefer */
+  color: white; /* Text color */
+  font-size: 1.2rem; /* Adjust font size as needed */
+  font-weight: bold;
+  border-radius: 50%; /* Makes the element a circle */
+  width: 2.5em; /* Width to ensure it's a circle */
+  height: 2.5em; /* Height to ensure it's a circle */
+}
+
+.top-right {
+  position: absolute; /* Position relative to nearest positioned ancestor */
+  top: 10px; /* Position from the top of the card */
+  right: 10px; /* Position from the right of the card */
+}
+
+.clickable-link {
+  cursor: pointer; /* Makes the cursor look like a pointer */
+  text-decoration: underline; /* Underlines the text */
+  color: #007bff; /* Use a color that indicates a link, similar to bootstrap blue */
+  transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+.clickable-link:hover {
+  color: #022d5a; /* Darker shade on hover to indicate interaction */
+}
