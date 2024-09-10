@@ -20,7 +20,8 @@ async function dataInitialization() {
     // }
 
     const ranks = [
-         {rankName: 'Captain'}, {rankName: 'Commander'}, {rankName: 'Chief Engineer'},{rankName: 'Chief Officer'}
+         {rankName: 'Captain'}, {rankName: 'Commander'}, {rankName: 'Lt Commander'},{rankName: 'Lieutenant'},{rankName: 'Sub Lieutenant'},
+         {rankName: 'MCPO I'}, {rankName: 'MCPO II'}, {rankName: 'CPO'},{rankName: 'PO'},{rankName: 'Leading'},{rankName: 'SEAI'},{rankName: 'SEAII'},{rankName: 'Agniveer'}
     ]
     try {
         const rank = await Rank.find();
@@ -58,7 +59,7 @@ async function dataInitialization() {
         }
     } 
     catch (error) {
-    console.error('Error during data initialization:', error);
+        console.error('Error during data initialization:', error);
     }
 
 

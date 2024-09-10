@@ -90,3 +90,27 @@ mat-list-option {
 .out-status {
   background-color: #f8d7da; /* Light red background color */
 }
+
+
+.position-relative {
+  position: relative; /* Ensures positioning context for absolute children */
+}
+
+.count-circle {
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  background-color: #3f51b5; /* Primary color or any other color you prefer */
+  color: white; /* Text color */
+  font-size: 1.2rem; /* Adjust font size as needed */
+  font-weight: bold;
+  border-radius: 50%; /* Makes the element a circle */
+  width: 2.5em; /* Width to ensure it's a circle */
+  height: 2.5em; /* Height to ensure it's a circle */
+}
+
+.top-right {
+  position: absolute; /* Position relative to nearest positioned ancestor */
+  top: 10px; /* Position from the top of the card */
+  right: 10px; /* Position from the right of the card */
+}
