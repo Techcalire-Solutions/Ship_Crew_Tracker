@@ -63,8 +63,8 @@ async function dataInitialization() {
 
 
     const deboardingTypes = [
-        {typeName: 'In',description: 'Stay in Ship',curfewTime:'1:00 PM-7:00 PM' },
-        {typeName: 'Out',description: 'Stay out of Ship',curfewTime:'1:00 PM-7:00 PM' }, 
+        {typeName: 'StayIn',description: 'Stay in Ship',curfewTime:'1:00 PM-7:00 PM' },
+        {typeName: 'StayOut',description: 'Stay out of Ship',curfewTime:'1:00 PM-7:00 PM' }, 
         {typeName: 'OnLeave',description: 'on leave',curfewTime:'1:00 PM-7:00 PM' },
         {typeName: 'TyDuty',description: 'Ty duty',curfewTime:'1:00 PM-7:00 PM' },
         {typeName: 'Hospital',description: 'hospital',curfewTime:'1:00 PM-7:00 PM' }

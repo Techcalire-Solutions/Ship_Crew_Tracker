@@ -95,6 +95,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   stayInCount: number = 0;
   stayInEmployees(){
     this.stayInSub = this.employeeService.getStayIn().subscribe(employees =>{
+      console.log(employees);
+
       this.stayInCount = employees.length;
     })
   }
@@ -103,6 +105,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   stayOutCount: number = 0;
   stayOutEmployees(){
     this.stayOutSub = this.employeeService.getStayOut().subscribe(employees =>{
+      console.log(employees);
+
       this.stayOutCount = employees.length;
     })
   }
