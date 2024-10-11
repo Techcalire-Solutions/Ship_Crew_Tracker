@@ -81,8 +81,6 @@ export class EmployeesComponent {
   employeeSub!: Subscription;
   getEmployees(){
     this.employeeSub = this.employeeService.getEmployee(this.searchText, this.currentPage, this.pageSize).subscribe((employee: any) => {
-      console.log(employee);
-
       this.employees = employee.items;
       this.totalItems = employee.count;
     })
@@ -121,7 +119,6 @@ export class EmployeesComponent {
     let data = {
       status : newValue
     }
-    console.log(data);
     this.employeeService.updateEmployeeStatus(id, data).subscribe(res => {
       this.snackBar.open("Status updated successfully...","" ,{duration:3000})
       this.getEmployees()

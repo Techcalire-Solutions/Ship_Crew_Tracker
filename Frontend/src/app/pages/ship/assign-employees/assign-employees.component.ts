@@ -88,8 +88,6 @@ export class AssignEmployeesComponent implements OnInit, OnDestroy {
   filterValue: string = "";
   searchemployee(event: Event){
     this.filterValue = (event.target as HTMLInputElement).value.trim();
-    console.log(this.filterValue);
-
     this.getEmployee()
   }
 
@@ -109,7 +107,6 @@ export class AssignEmployeesComponent implements OnInit, OnDestroy {
 
   submit!: Subscription;
   onSubmit(){
-    console.log(this.form.getRawValue());
     this.submit = this.shipService.addShipEmployee(this.form.getRawValue()).subscribe(res =>{
       this.snackBar.open("Employee Assigned successfully...","" ,{duration:3000})
     });

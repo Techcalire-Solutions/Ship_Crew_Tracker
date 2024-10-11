@@ -70,7 +70,6 @@ router.get('/gettodays', async (req, res) => {
 
     if (req.query.search && req.query.search !== 'undefined') {
       const searchTerm = req.query.search.replace(/\s+/g, '').trim().toLowerCase();
-      console.log(`Search Term: ${searchTerm}`); // Debug: Print the search term
 
       if (searchTerm) { // Ensure searchTerm is not empty
         whereClause['employeeId.name'] = {
@@ -128,14 +127,11 @@ router.get('/getstayout', async (req, res) => {
 });
 
 router.get('/getstayin', async (req, res) => {
-  console.log("hiiiiiiiiiiiiiiiiiii");
   
   try {
     let purpose = await DeboardingType.findOne({ typeName: 'StayIn' });
-    console.log(purpose);
     
     let id = purpose._id;
-    console.log(id);
     
     const employeeMonitoring = await EmployeeMonitoring.find({
       currentStatus: false, purpose: id
@@ -143,7 +139,6 @@ router.get('/getstayin', async (req, res) => {
       { path: 'employeeId', select: 'name' }, // Corrected 'selece' to 'select'
       { path: 'purpose', select: 'typeName' }, // Corrected 'selece' to 'select'
     ]);
-    console.log(employeeMonitoring);
     
     res.send(employeeMonitoring);
   } catch (error) {

@@ -41,7 +41,6 @@ export class DepartmentComponent {
   departments: Department[] = [];
   getDepartment(){
     this.departmentSub = this.employeeService.getDepartment(this.searchText, this.currentPage, this.pageSize).subscribe((department: any) =>{
-      console.log(department);
       this.departments = department.items
     })
   }

@@ -40,26 +40,24 @@ app.use('/department', department)
 const em = require('../employees/routers/employeeMonitoring');
 app.use('/employeemonitoring', em)
 
+const log = require('../employees/routers/log');
+app.use('/logs', log);
+
 app.use('/employees/images', express.static(path.join(__dirname, '../employees/images')));
-; 
+
 mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Successfully connected to MongoDB'))
   .catch(err => console.error('Connection error', err));
 
-// async function connectDB() {
-//   try {
-//     await mongoose.connect(dbURI, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log('Connected to MongoDB');
-//   } catch (error) {
-//     console.error('Error connecting to MongoDB:', error);
-//     process.exit(1); // Exit the process with failure
-//   }
-// }
 
-// connectDB();
+
+// main().catch(e => {
+//   console.error(e);
+//   process.exit(1);
+// })
+// .finally(async () => {
+//   await prisma.$disconnect();
+// });
 
 app.listen(process.env.PORT, (err)=>{
     if(err) console.log(err)

@@ -77,6 +77,10 @@ export class EmployeeService {
     return this._http.get<Employee>(this.url + `/employee/findbyid/` + id);
   }
 
+  getEmployeeByCode(id: string):Observable<Employee>{
+    return this._http.get<Employee>(this.url + `/employee/bycode/` + id);
+  }
+
   uploadEmployeeImage(file: any): Observable<any> {
     if (file instanceof File) {
       const formData = new FormData();
@@ -164,4 +168,13 @@ export class EmployeeService {
   getStayOut(): Observable<EmployeeMonitoring[]>{
     return this._http.get<EmployeeMonitoring[]>(this.url+ `/employeemonitoring/getstayout/`);
   }
+
+  getEmployeeLog(): Observable<any[]>{
+    return this._http.get<any[]>(this.url+ `/logs/getlog/`);
+  }
+
+  getLastEntry(code: string): Observable<any>{
+    return this._http.get<any>(this.url+ `/logs/lastentry/` + code);
+  }
+
 }

@@ -2,65 +2,71 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* semi-transparent background */
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  overflow-x: auto; /* Use 'auto' to show scroll only when necessary */
+  height: 100%;
+  z-index: 1000; /* Ensure it appears on top */
 }
 
 .custom-card {
-  // min-width: 500px; /* Set a min-width to trigger overflow */
-  // max-width: none;  /* Remove the max-width constraint */
+  max-width: 500px;
   width: 100%;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  animation: fadeIn 0.3s ease;
 }
 
-
-.card-title {
-  font-weight:bolder;
-  color: #0a0a0a;
+.card-title h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
   text-align: center;
-  padding-bottom: 10px;
 }
 
 .card-content {
-  padding-top: 10px;
+  margin-top: 20px;
 }
 
 .radio-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* Space between radio buttons */
+  width: 100%;
+  justify-content: space-around;
 }
 
-mat-radio-button {
-  margin: 0 8px;
+.mat-radio-button {
+  margin: 0 10px;
 }
 
 .card-actions {
   display: flex;
   justify-content: center;
-  padding: 10px;
+  margin-top: 20px;
 }
 
 .confirm-button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  background-color: #1976d2;
+  background-color: #007bff;
   color: #fff;
-  transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 8px;
 }
 
 .confirm-button:hover {
-  background-color: #1565c0;
+  background-color: #0056b3;
 }
 
-.user-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 800px; /* Set a max-width that exceeds the normal dialog width */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

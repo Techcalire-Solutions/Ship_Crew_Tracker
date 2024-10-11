@@ -31,7 +31,6 @@ export class BoardingComponent implements OnInit, OnDestroy{
   logs: EmployeeMonitoring[] = [];
   getLog(){
     this.logSub = this.employeeService.getTodayMonitoringData(this.searchText).subscribe(data =>{
-      console.log(data);
       this.logs = data;
     })
   }

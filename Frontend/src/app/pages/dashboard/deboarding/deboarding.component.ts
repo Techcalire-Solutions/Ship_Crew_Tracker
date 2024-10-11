@@ -23,6 +23,8 @@ import { DeboardingDialogComponent } from '../deboarding-dialog/deboarding-dialo
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeMonitoring } from '../../../common/interfaces/employee-monitoring';
 import { OpenEmployeeComponent } from '../../employees/open-employee/open-employee.component';
+import { BioVerficationComponent } from '../bio-verfication/bio-verfication.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-deboarding',
@@ -37,13 +39,13 @@ import { OpenEmployeeComponent } from '../../employees/open-employee/open-employ
     MatOptionModule,
     MatSelectModule,
     MatInputModule,
-    MatListModule
+    MatListModule,
+    MatPaginatorModule
   ],
   templateUrl: './deboarding.component.html',
   styleUrl: './deboarding.component.scss',
 })
 export class DeboardingComponent implements OnInit, OnDestroy {
-  @Output() apiCallEvent = new EventEmitter<void>();
 
   shipService = inject(ShipService);
   employeeService = inject(EmployeeService);
@@ -67,11 +69,25 @@ export class DeboardingComponent implements OnInit, OnDestroy {
   employeeSub!: Subscription;
   employees: Employee[] = [];
   getEmployees() {
-    this.employeeSub = this.employeeService.getEmployee().subscribe(emp => {
-      this.employees = emp;
-      console.log(this.employees);
-
+    this.employeeSub = this.employeeService.getEmployee(this.searchText, this.currentPage, this.pageSize).subscribe((emp: any) => {
+      this.employees = emp.items;
+      this.totalItems = emp.count;
     });
+  }
+
+  pageSize = 10;
+  currentPage = 1;
+  totalItems = 0;
+  public onPageChanged(event: any){
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.getEmployees()
+  }
+
+  public searchText!: string;
+  search(event: Event){
+    this.searchText = (event.target as HTMLInputElement).value
+    this.getEmployees()
   }
 
   public userImage = 'img/users/default-user.jpg';
@@ -83,37 +99,59 @@ export class DeboardingComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectedEmployee!: Employee
-  onSelectionChange(event: MatSelectionListChange) {
-    this.selectedEmployee = event.options[0].value;
-    if(this.selectedEmployee.currentStatus === 'In'){
-      let dialogRef = this.dialog.open(DeboardingDialogComponent, {
-        data: this.selectedEmployee
-      });
-      dialogRef.afterClosed().subscribe((res: any) => {
-        if (res && res.employee.currentStatus) {
-          this.selectedEmployee.currentStatus = res.employee.currentStatus;
+  selectedEmployee: Employee | null = null
+  @Output() apiCallEvent = new EventEmitter<void>();
+  onSelectionChange(event: any) {
+    this.selectedEmployee = event;
+    let dialogRef = this.dialog.open(BioVerficationComponent, {
+      data: this.selectedEmployee
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true && this.selectedEmployee) {
+        if (this.selectedEmployee.currentStatus === 'In') {
+          let dialogRef = this.dialog.open(DeboardingDialogComponent, {
+            data: this.selectedEmployee
+          });
+          dialogRef.afterClosed().subscribe((res: any) => {
+            if (res && res.employee.currentStatus && this.selectedEmployee) {
+              this.selectedEmployee.currentStatus = res.employee.currentStatus;
+            }
+            this.apiCallEvent.emit();
+            this.stayInEmployees();
+            this.stayOutEmployees();
+            this.selectedEmployee = null;
+          });
+        } else {
+          let data = {
+            employeeId: this.selectedEmployee._id,
+            checkInTime: new Date()
+          };
+          this.employeeService.employeeCheckIn(data).subscribe(
+            (res: any) => {
+              console.log(res);
+              this.snackBar.open("Employee checked In successfully...", "", { duration: 3000 });
+              this.getEmployees();
+              this.stayInEmployees();
+              this.stayOutEmployees();
+              this.apiCallEvent.emit();
+              this.selectedEmployee = null; // Reset selectedEmployee
+            },
+            (error: any) => {
+              console.error('Error occurred:', error);
+              alert("Failed to check in employee. Please try again.");
+              this.selectedEmployee = null; // Reset selectedEmployee on error
+            }
+          );
         }
-        this.apiCallEvent.emit();
-      });
-    }else{
-        let data = {
-          employeeId: this.selectedEmployee._id,
-          checkInTime: new Date()
-        }
-        this.employeeService.employeeCheckIn(data).subscribe((res: any) => {
-          console.log(res);
-
-          this.snackBar.open("Employee checked In succesfully...","" ,{duration:3000})
-          this.getEmployees()
-          this.apiCallEvent.emit();
-        },  (error: any) => {
-          // Error callback
-          console.error('Error occurred:', error);
-          alert("Failed to check in employee. Please try again.");
-        });
-    }
+      } else if (result === false) {
+        this.snackBar.open("Verification failed, Please try again...", "", { duration: 3000 });
+        this.selectedEmployee = null; // Reset selectedEmployee after failure
+      }else{
+        this.selectedEmployee = null;
+      }
+    });
   }
+
 
   stayInSub!: Subscription;
   stayInCount: number = 0;
@@ -130,6 +168,8 @@ export class DeboardingComponent implements OnInit, OnDestroy {
   outEmployees: EmployeeMonitoring[] = [];
   stayOutEmployees(){
     this.stayOutSub = this.employeeService.getStayOut().subscribe(employees =>{
+      console.log(employees);
+
       this.outEmployees = employees;
       this.stayOutCount = employees.length;
     })
@@ -156,4 +196,5 @@ export class DeboardingComponent implements OnInit, OnDestroy {
     this.stayInSub?.unsubscribe();
     this.stayOutSub?.unsubscribe();
   }
+
 }

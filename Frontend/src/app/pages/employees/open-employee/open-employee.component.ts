@@ -27,19 +27,13 @@ export class OpenEmployeeComponent implements OnInit, OnDestroy {
   url = environment.baseUrl;
   public defaultUser = 'img/users/default-user.jpg';
   ngOnInit(): void {
-    console.log(this.data.employee._id);
 
     this.getEmployee(this.data.employee._id)
   }
 
   getEmployee(id: string){
-    console.log(id);
-
     this.employeeService.getEmployeeByID(id).subscribe(res => {
-      console.log(res);
-
       this.employee = res;
-      console.log(this.employee);
       this.getLog(id);
     });
   }
@@ -47,7 +41,6 @@ export class OpenEmployeeComponent implements OnInit, OnDestroy {
   logs: EmployeeMonitoring[] = [];
   getLog(id: string){
     this.employeeService.getEmployeeMonitoringData(id).subscribe(data =>{
-      console.log(data);
       this.logs = data;
     });
   }

@@ -30,7 +30,7 @@
                         {{employee.rankId?.rankName}} {{employee.name}} {{employee.roleId?.roleName}} - {{employee.departmentId?.departmentName}}
                       }
                   </h5>
-                  <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" class="default-contrast">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" class="default-contrast" (click)="$event.stopPropagation()">
                       <mat-icon>more_vert</mat-icon>
                   </button>
               </div>
@@ -63,7 +63,10 @@
                       </div>
                   </div>
                   <div fxFlex="70" fxLayout="column" class="user-details transition-2" [class.blocked]="!employee.status">
-
+                    <p fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="muted-text">code</mat-icon>
+                      <span> {{employee.employeeCode}}</span>
+                  </p>
                       <p fxLayout="row" fxLayoutAlign="start center">
                           <mat-icon class="muted-text">mail_outline</mat-icon>
                           <span> {{employee.email}}</span>

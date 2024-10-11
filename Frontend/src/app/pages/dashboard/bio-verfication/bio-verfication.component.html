@@ -1,0 +1,25 @@
+<h2 mat-dialog-title class="dialog-title">Verify Your Identity</h2>
+
+<div mat-dialog-content>
+  <p>Please verify your identity using biometric verification.</p>
+
+  <!-- Flexbox container to center the image -->
+  <div class="image-container">
+    <img [src]="fingerImage" alt="Biometric Icon" class="biometric-image">
+  </div>
+
+  @if(errorMessage){
+    <p style="color: red;">{{ errorMessage }}</p>
+  }
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="verifyBiometric()" [disabled]="isVerifying">
+    @if(!isVerifying){
+      <span>Verify</span>
+    }@else {
+      <span>Verifying...</span>
+    }
+  </button>
+  <button mat-button (click)="cancel()" [disabled]="isVerifying">Cancel</button>
+</div>

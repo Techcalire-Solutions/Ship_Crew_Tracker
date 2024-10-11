@@ -1,0 +1,66 @@
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.biometric-image {
+  width: 150px;
+  height: 150px;
+}
+
+.dialog-title {
+  text-align: center; /* Align the heading at the center */
+  padding: 16px;      /* Add padding on all four sides */
+}
+
+// .image-container {
+//   height: 500x;
+//   display: flex;
+//   justify-content: center; /* Center the image horizontally */
+//   padding: 16px;           /* Optional padding for the image container */
+// }
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3f51b5; /* Optional: Change the title color */
+}
+
+.mat-dialog-actions {
+  padding: 16px;
+}
+
+/* Styling for the Verify button */
+button.mat-raised-button {
+  background-color: #3f51b5; /* Primary color */
+  color: white;
+  font-weight: bold;
+  padding: 10px 24px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button.mat-raised-button:hover {
+  background-color: #303f9f; /* Darker shade on hover */
+}
+
+button.mat-raised-button[disabled] {
+  background-color: rgba(63, 81, 181, 0.5); /* Lighter color when disabled */
+}
+
+/* Styling for the Cancel button */
+button.mat-button {
+  color: #757575;
+  padding: 10px 16px;
+  transition: color 0.3s ease;
+}
+
+button.mat-button:hover {
+  color: #000;
+}
+
+button.mat-button[disabled] {
+  color: rgba(117, 117, 117, 0.5); /* Lighter color when disabled */
+}
+

@@ -40,7 +40,6 @@ export class RankComponent {
   ranks: Rank[] = [];
   getRank(){
     this.rankSub = this.employeeService.getRank(this.searchText, this.currentPage, this.pageSize).subscribe((rank: any) =>{
-      console.log(rank);
       this.ranks = rank.items
     })
   }

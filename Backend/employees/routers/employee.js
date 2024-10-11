@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const Employee = require('../models/employee');
 const multer = require('../../utils/multer');
+const EmployeeMonitoring = require('../models/employeeMonitoring');
 
 router.post('/add', async(req,res)=>{
     const{ name, employeeCode, leaveStatus, deboardingTypeId, status, roleId, phoneNumber, email, joiningDate, address,
@@ -89,8 +90,6 @@ router.get('/findall', async(req, res)=>{
     
     if (req.query.search && req.query.search != 'undefined') {
       const searchTerm = req.query.search.trim().toLowerCase();
-        console.log(searchTerm);
-        
         whereClause = {
           ...whereClause,
           $or: [
@@ -154,6 +153,7 @@ router.patch('/edit/:id', async (req, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
   try {
+    const employeeLog = await EmployeeMonitoring.deleteMany({employeeId: req.params.id});
     const employee = await Employee.deleteOne({_id:req.params.id})
     res.send(employee)
   } catch (error) {
@@ -163,7 +163,6 @@ router.delete('/delete/:id', async (req, res) => {
 
 router.patch('/updatestatus/:id', async (req, res) => {
   const status = req.body.status;
-  console.log(status);
   try {
     const employee = await Employee.findById(req.params.id);
 
@@ -172,10 +171,8 @@ router.patch('/updatestatus/:id', async (req, res) => {
     }
 
     employee.status = status;
-    console.log(employee);
     
     await employee.save();
-    console.log(employee);
 
     res.send(employee)
   } catch (error) {
@@ -199,23 +196,19 @@ router.post('/fileupload', multer.single('file'), (req, res) => {
       fileUrl: fileUrl
     });
   } catch (error) {
-    console.error('Error uploading file:', error);
     res.status(500).send({ message: error.message });
   }
 });
 
 router.delete('/filedelete', async (req, res) => {
   try {
-    console.log(req.query);
     const fileName = path.basename(req.query.fileName);
 
-    console.log(fileName);
     const filePath = path.join(__dirname, '../images', fileName);
 
     if (fs.existsSync(filePath)) {
       fs.unlink(filePath, async (err) => {
         if (err) {
-          console.error('Error deleting file:', err);
           return res.status(500).send({ message: 'Error deleting file' });
         }
 
@@ -225,10 +218,18 @@ router.delete('/filedelete', async (req, res) => {
       return res.status(404).send({ message: 'File not found' });
     }
   } catch (error) {
-    console.error('Error:', error.message);
     res.status(500).send(error.message);
   }
 });
 
+
+router.get('/bycode/:code', async(req, res)=>{
+  try {
+    const employee = await Employee.findOne({ employeeCode: req.params.code });
+    res.send(employee)
+  } catch (error) {
+    res.send(error)
+  }
+})
 
 module.exports = router

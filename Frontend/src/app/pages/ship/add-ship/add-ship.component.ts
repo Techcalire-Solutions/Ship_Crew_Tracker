@@ -75,16 +75,11 @@ export class AddShipComponent implements OnInit, OnDestroy {
   onSubmit(){
     if(this.ship){
       this.submit = this.shipService.updateShip(this.form.getRawValue(), this.ship._id).subscribe(ship => {
-        console.log(ship);
-
         this.snackBar.open("Ship updated successfully...","" ,{duration:3000})
         this.dialogRef.close();
       });
     }else{
-      console.log(this.form.getRawValue());
-
       this.submit = this.shipService.addShip(this.form.getRawValue()).subscribe(ship => {
-        console.log(ship);
 
         this.snackBar.open("Ship added successfully...","" ,{duration:3000})
         this.dialogRef.close();

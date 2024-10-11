@@ -38,7 +38,6 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   viewList(id: string){
     this.shipService.getShipEmployeeByShipId(id).subscribe(employ => {
       this.employee = employ
-      console.log(this.employee);
     });
   }
 

@@ -102,7 +102,6 @@ export class ShipComponent implements OnInit, OnDestroy {
 
   public searchText!: string;
   search(){
-    console.log(this.searchText);
     this.getShips()
   }
 
