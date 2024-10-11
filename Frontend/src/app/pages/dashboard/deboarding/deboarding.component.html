@@ -155,7 +155,7 @@
           <span class="count-circle top-right">{{stayInCount}}</span>
         </mat-card-header>
         <mat-card-content>
-          <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
+          <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event.options[0].value)">
             <mat-list>
               @for (emp of inEmployees; track employeeService) {
                 <mat-list-item (click)="openEmployee(emp.employeeId)">
@@ -176,8 +176,16 @@
       <mat-card-header>
         <mat-card-title>Officers & Sailors</mat-card-title>
       </mat-card-header>
+      <div fxLayout="row" class="col">
+        <form class="user-search" style="width: 100%;">
+          <mat-form-field class="user-search-input" appearance="outline">
+            <mat-label>Name/Code</mat-label>
+              <input matInput placeholder="Search by name or code..." name="search" (keyup)="search($event)">
+          </mat-form-field>
+        </form>
+      </div>
       <mat-card-content>
-        <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
+        <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event.options[0].value)">
           @for (emp of employees; track emp) {
             <mat-list-option [value]="emp" [ngClass]="{'out-status': emp.currentStatus != 'In'}">
               <img matListItemAvatar [src]="emp.imageUrl ? (url + emp.imageUrl) : userImage" alt="image">
@@ -186,6 +194,13 @@
             </mat-list-option>
           }
         </mat-selection-list>
+        <mat-paginator
+        [length]="totalItems"
+        [pageSize]="pageSize"
+        [pageIndex]="currentPage - 1"
+        (page)="onPageChanged($event)"
+        [pageSizeOptions]="[10, 20, 30, 40, 50, 100]">
+      </mat-paginator>
       </mat-card-content>
     </mat-card>
   </div>

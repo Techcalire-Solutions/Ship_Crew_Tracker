@@ -51,7 +51,6 @@ export class DeboardingTypeComponent {
   deboardingtypes: DeboardingType[] = [];
   getDeboardingType(){
     this.deboardingtypeSub = this.employeeService.getDeboardingType(this.searchText, this.currentPage, this.pageSize).subscribe((deboardingtype: any) =>{
-      console.log(deboardingtype);
       this.deboardingtypes = deboardingtype.items
     })
   }
@@ -96,7 +95,6 @@ export class DeboardingTypeComponent {
   roles: any[] = [];
   getRole(){
     this.employeeService.getRole(this.searchText, this.currentPage, this.pageSize).subscribe((role: any) =>{
-      console.log(role);
       this.roles = role.items
     })
   }

@@ -1,0 +1,337 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model BioFormat {
+  BioFormatId Int
+  BioFormat   String @db.VarChar(255)
+
+  @@id([BioFormat, BioFormatId])
+}
+
+model BioType {
+  BioTypeId Int
+  BioType   String @db.VarChar(255)
+
+  @@id([BioType, BioTypeId])
+}
+
+model Commands {
+  CommandId       BigInt  
+  CommandTypeId   Int
+  DeviceId        BigInt
+  EmployeeId      BigInt
+  BioId           Int
+  Status          Int
+  DeviceCommandId BigInt?
+  CreatedBy       Int
+  CreatedOn       DateTime  @db.DateTime(0)
+  ModifiedOn      DateTime? @db.DateTime(0)
+
+  @@id([BioId, CommandId, CommandTypeId, DeviceId, EmployeeId])
+}
+
+model DeviceCommands {
+  DeviceCommandId Int       @default(autoincrement())
+  Title           String?   @db.VarChar(255)
+  DeviceCommand   String?   @db.Text
+  SerialNumber    String    @db.VarChar(255)
+  Status          String?   @db.VarChar(255)
+  Type            String?   @db.VarChar(255)
+  CreationDate    DateTime? @db.DateTime(0)
+  ExecutionDate   DateTime? @db.DateTime(0)
+
+  @@id([DeviceCommandId, SerialNumber])
+}
+
+model DeviceErrorMessages {
+  DeviceErrorMessageId Int     @default(autoincrement())
+  SerialNumber         String  @db.VarChar(50)
+  ErrorMessage         String? @db.Text
+  LogStream            String? @db.Text
+  CreatedDate          String? @db.VarChar(50)
+
+  @@id([DeviceErrorMessageId, SerialNumber])
+}
+
+model DeviceGroup {
+  DeviceGroupId      Int      @id
+  Name               String   @unique(map: "UK_DeviceGroup_Name") @db.VarChar(255)
+  Description        String?  @db.VarChar(255)
+  VerificationTypeId Int
+  LastModifiedDate   DateTime @db.DateTime(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model DeviceLogs {
+  DeviceLogId  Int       @default(autoincrement())
+  DownloadDate DateTime? @db.DateTime(0)
+  DeviceId     Int
+  UserId       String    @db.VarChar(50)
+  LogDate      DateTime  @db.DateTime(0)
+  Direction    String?   @db.VarChar(255)
+  AttDirection String?   @db.VarChar(255)
+  C1           String?   @db.VarChar(255)
+  C2           String?   @db.VarChar(255)
+  C3           String?   @db.VarChar(255)
+  C4           String?   @db.VarChar(255)
+  C5           String?   @db.VarChar(255)
+  C6           String?   @db.VarChar(255)
+  C7           String?   @db.VarChar(255)
+  WorkCode     String?   @db.VarChar(255)
+
+  @@index([DeviceLogId], map: "DeviceLogId")
+  @@ignore
+}
+
+model DeviceLogsInfoBL {
+  DeviceLogId  Int       @id @default(autoincrement())
+  DownloadDate DateTime? @db.DateTime(0)
+  DeviceId     Int
+  LogDate      DateTime  @db.DateTime(0)
+
+  @@unique([DeviceId, LogDate], map: "UK_DeviceLogsInfoBL")
+}
+
+model DeviceLogs_10_2024 {
+  DeviceLogId      BigInt   @default(autoincrement())
+  DownloadDate     DateTime @default(now()) @db.Timestamp(0)
+  DeviceId         BigInt
+  UserId           String   @db.VarChar(50)
+  LogDate          DateTime @default(dbgenerated("'1971-01-01 00:00:01'")) @db.Timestamp(0)
+  Direction        String?  @db.VarChar(255)
+  AttDirection     String?  @db.VarChar(255)
+  C1               String?  @db.VarChar(255)
+  C2               String?  @db.VarChar(255)
+  C3               String?  @db.VarChar(255)
+  C4               String?  @db.VarChar(255)
+  C5               String?  @db.VarChar(255)
+  C6               String?  @db.VarChar(255)
+  C7               String?  @db.VarChar(255)
+  WorkCode         String?  @db.VarChar(255)
+  hrapp_syncstatus Int?     @db.TinyInt
+
+  @@id([DeviceLogId, LogDate, UserId])
+  @@unique([LogDate(sort: Desc), UserId], map: "PK_DeviceLogs_10_2024_01")
+}
+
+model DeviceLogs_9_2024 {
+  DeviceLogId      BigInt   @default(autoincrement())
+  DownloadDate     DateTime @default(now()) @db.Timestamp(0)
+  DeviceId         BigInt
+  UserId           String   @db.VarChar(50)
+  LogDate          DateTime @default(dbgenerated("'1971-01-01 00:00:01'")) @db.Timestamp(0)
+  Direction        String?  @db.VarChar(255)
+  AttDirection     String?  @db.VarChar(255)
+  C1               String?  @db.VarChar(255)
+  C2               String?  @db.VarChar(255)
+  C3               String?  @db.VarChar(255)
+  C4               String?  @db.VarChar(255)
+  C5               String?  @db.VarChar(255)
+  C6               String?  @db.VarChar(255)
+  C7               String?  @db.VarChar(255)
+  WorkCode         String?  @db.VarChar(255)
+  hrapp_syncstatus Int?     @db.TinyInt
+
+  @@id([DeviceLogId, LogDate, UserId])
+  @@unique([LogDate(sort: Desc), UserId], map: "PK_DeviceLogs_9_2024_01")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model DeviceLogs_Processed {
+  DeviceLogId  Int       @default(autoincrement())
+  DownloadDate DateTime? @db.DateTime(0)
+  DeviceId     Int
+  UserId       String    @db.VarChar(50)
+  LogDate      DateTime  @db.DateTime(0)
+  Direction    String?   @db.VarChar(255)
+  AttDirection String?   @db.VarChar(255)
+  C1           String?   @db.VarChar(255)
+  C2           String?   @db.VarChar(255)
+  C3           String?   @db.VarChar(255)
+  C4           String?   @db.VarChar(255)
+  C5           String?   @db.VarChar(255)
+  C6           String?   @db.VarChar(255)
+  C7           String?   @db.VarChar(255)
+  WorkCode     String?   @db.VarChar(255)
+
+  @@id([DeviceLogId, LogDate, UserId])
+  @@unique([LogDate(sort: Desc), UserId], map: "PK_DeviceLogs_Processed_01")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model DeviceOperationLogTypes {
+  OperationLogTypeId   Int
+  OperationLogTypeCode Int?
+  OperationLogTypeName String? @db.VarChar(255)
+
+  @@ignore
+}
+
+model DeviceOperationLogs {
+  DeviceOperationLogId         Int     
+  DeviceOperationLogCode       Int?
+  DeviceOperationLogExecutedOn DateTime @db.DateTime(0)
+  SerialNumber                 String   @db.VarChar(255)
+
+  @@id([DeviceOperationLogExecutedOn, DeviceOperationLogId, SerialNumber])
+}
+
+model Devices {
+  DeviceId            Int       @default(autoincrement())
+  DeviceFName         String    @db.VarChar(255)
+  DevicesName         String    @db.VarChar(255)
+  DeviceDirection     String?   @db.VarChar(255)
+  SerialNumber        String    @db.VarChar(255)
+  ConnectionType      String?   @db.VarChar(255)
+  IpAddress           String?   @db.VarChar(255)
+  BaudRate            String?   @db.VarChar(255)
+  CommKey             String    @db.VarChar(255)
+  ComPort             String?   @db.VarChar(255)
+  LastLogDownloadDate DateTime? @db.DateTime(0)
+  C1                  String?   @db.VarChar(255)
+  C2                  String?   @db.VarChar(255)
+  C3                  String?   @db.VarChar(255)
+  C4                  String?   @db.VarChar(255)
+  C5                  String?   @db.VarChar(255)
+  C6                  String?   @db.VarChar(255)
+  C7                  String?   @db.VarChar(255)
+  TransactionStamp    String?   @db.VarChar(50)
+  LastPing            DateTime? @db.DateTime(0)
+  DeviceType          String?   @db.VarChar(255)
+  OpStamp             String?   @db.VarChar(255)
+  DownLoadType        Int?
+  TimeZone            String?   @db.VarChar(50)
+  DeviceLocation      String?   @db.VarChar(50)
+  TimeOut             String?   @db.VarChar(50)
+
+  @@id([DeviceId, SerialNumber])
+}
+
+model Employees {
+  EmployeeId             Int       @default(autoincrement())
+  EmployeeName           String    @db.VarChar(50)
+  EmployeeCode           String    @id @db.VarChar(50)
+  StringCode             String    @db.VarChar(50)
+  NumericCode            Int
+  Gender                 String    @db.VarChar(255)
+  CompanyId              Int
+  DepartmentId           Int
+  Designation            String?   @db.VarChar(255)
+  CategoryId             Int
+  DOJ                    DateTime? @db.DateTime(0)
+  DOR                    DateTime? @db.DateTime(0)
+  DOC                    DateTime? @db.DateTime(0)
+  EmployeeCodeInDevice   String    @unique(map: "UK_EmployeeCodeInDevice") @db.VarChar(50)
+  EmployeeRFIDNumber     String?   @db.VarChar(255)
+  EmployementType        String    @db.VarChar(255)
+  Status                 String    @db.VarChar(255)
+  EmployeeDevicePassword String?   @db.VarChar(50)
+  EmployeeDeviceGroup    String?   @db.VarChar(50)
+  FatherName             String?   @db.VarChar(255)
+  MotherName             String?   @db.VarChar(255)
+  ResidentialAddress     String?   @db.VarChar(255)
+  PermanentAddress       String?   @db.VarChar(255)
+  ContactNo              String?   @db.VarChar(255)
+  Email                  String?   @db.VarChar(255)
+  DOB                    DateTime? @db.DateTime(0)
+  PlaceOfBirth           String?   @db.VarChar(255)
+  Nomenee1               String?   @db.VarChar(255)
+  Nomenee2               String?   @db.VarChar(255)
+  Remarks                String?   @db.LongText
+  RecordStatus           Int?
+  C1                     String?   @db.VarChar(255)
+  C2                     String?   @db.VarChar(255)
+  C3                     String?   @db.VarChar(255)
+  C4                     String?   @db.VarChar(255)
+  C5                     String?   @db.VarChar(255)
+  C6                     String?   @db.VarChar(255)
+  C7                     String?   @db.VarChar(255)
+  Location               String?   @db.VarChar(255)
+  BLOODGROUP             String?   @db.VarChar(255)
+  WorkPlace              String?   @db.VarChar(255)
+  ExtensionNo            String?   @db.VarChar(255)
+  LoginName              String?   @db.VarChar(255)
+  LoginPassword          String?   @db.VarChar(255)
+  Grade                  String?   @db.VarChar(255)
+  Team                   String?   @db.VarChar(255)
+  IsRecieveNotification  Int?
+  HolidayGroup           Int?
+  ShiftGroupId           Int?
+  ShiftRosterId          Int?
+  LastModifiedBy         String?   @db.VarChar(50)
+
+  @@index([EmployeeId], map: "EmployeeId")
+}
+
+model EmployeesBio {
+  EmployeeBioId Int     @default(autoincrement())
+  EmployeeId    Int
+  BioType       String  @db.VarChar(50)
+  BioVersion    String? @db.VarChar(50)
+  BioIndex      Int     @default(0)
+  BioId         Int
+  Bio           String? @db.LongText
+  BioFormatId   Int     @default(0)
+
+  @@id([BioFormatId, BioId, BioIndex, BioType, EmployeeId])
+  @@index([EmployeeBioId], map: "EmployeeBioId")
+}
+
+model TimeZone {
+  TimeZoneId       Int      @id
+  Name             String   @unique(map: "UK_TimeZone_Name") @db.VarChar(255)
+  Description      String?  @db.VarChar(255)
+  SunStart         String   @db.VarChar(10)
+  SunEnd           String   @db.VarChar(10)
+  MonStart         String   @db.VarChar(10)
+  MonEnd           String   @db.VarChar(10)
+  TueStart         String   @db.VarChar(10)
+  TueEnd           String   @db.VarChar(10)
+  WedStart         String   @db.VarChar(10)
+  WedEnd           String   @db.VarChar(10)
+  ThuStart         String   @db.VarChar(10)
+  ThuEnd           String   @db.VarChar(10)
+  FriStart         String   @db.VarChar(10)
+  FriEnd           String   @db.VarChar(10)
+  SatStart         String   @db.VarChar(10)
+  SatEnd           String   @db.VarChar(10)
+  LastModifiedDate DateTime @db.DateTime(0)
+}
+
+model Users {
+  UserId        Int     @default(autoincrement())
+  LoginName     String  @id @db.VarChar(50)
+  LoginPassword String  @db.VarChar(50)
+  RoleName      String? @db.VarChar(255)
+  IsAdmin       Int
+  AccessI       Int
+  RecordStatus  Int?
+  C1            String? @db.VarChar(255)
+  C2            String? @db.VarChar(255)
+  C3            String? @db.VarChar(255)
+  C4            String? @db.VarChar(255)
+  C5            String? @db.VarChar(255)
+  C6            String? @db.VarChar(255)
+  C7            String? @db.VarChar(255)
+
+  @@index([UserId], map: "UserId")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model VerificationMode {
+  VerifyMethodCode Int?
+  VerifyMethodName String? @db.VarChar(255)
+
+  @@ignore
+}
+
+model VerificationType {
+  VerificationTypeId Int    @id
+  Name               String @db.VarChar(255)
+}

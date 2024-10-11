@@ -54,6 +54,5 @@ export class HorizontalMenuComponent implements OnInit {
   submenuVisible: boolean = false;
   onSubmenuClick() {
     this.submenuVisible = !this.submenuVisible;
-    console.log(this.submenuVisible);
   }
 }

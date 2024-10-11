@@ -30,7 +30,6 @@ async function dataInitialization() {
         }
     } 
     catch (error) {
-        console.error('Error during data initialization:', error);
     }
 
     const roles = [

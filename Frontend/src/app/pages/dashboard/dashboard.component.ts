@@ -1,16 +1,12 @@
 import { BoardingComponent } from './boarding/boarding.component';
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
-import $ from 'jquery';
 import { DeboardingComponent } from './deboarding/deboarding.component';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
-import { Employee } from '../../common/interfaces/employee';
-import { OpenEmployeeComponent } from '../employees/open-employee/open-employee.component';
-import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -37,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.hospitalEmployees();
     this.tyDutyEmployees();
     this.stayInEmployees();
-    this.stayOutEmployees()
+    this.stayOutEmployees();
   }
 
   activeTab: string = 'deboarding';
@@ -98,8 +94,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   stayInCount: number = 0;
   stayInEmployees(){
     this.stayInSub = this.employeeService.getStayIn().subscribe(employees =>{
-      console.log(employees);
-
       this.stayInCount = employees.length;
     })
   }
@@ -108,8 +102,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   stayOutCount: number = 0;
   stayOutEmployees(){
     this.stayOutSub = this.employeeService.getStayOut().subscribe(employees =>{
-      console.log(employees);
-
       this.stayOutCount = employees.length;
     })
   }

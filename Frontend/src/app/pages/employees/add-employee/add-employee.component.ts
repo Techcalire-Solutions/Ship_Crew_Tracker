@@ -96,7 +96,6 @@ export class AddEmployeeComponent {
       this.updateStatus = true;
       this.patchEmployee(this.data.value);
     }else if(this.data?.stage === 'filter'){
-      console.log(this.data.value);
       this.form.get('name')?.setValue(this.data.value);
     }
 
@@ -201,8 +200,6 @@ export class AddEmployeeComponent {
   }
 
   patchEmployee(employee: Employee){
-    console.log(employee);
-
     this.form.patchValue({
       name: employee.name,
       employeeCode: employee.employeeCode,
@@ -228,8 +225,6 @@ export class AddEmployeeComponent {
       });
     }else{
       this.submit = this.employeeService.addEmployee(this.form.getRawValue()).subscribe(employee => {
-        console.log(employee);
-
         this.snackBar.open("Employee added successfully...","" ,{duration:3000})
         this.dialogRef?.close(employee)
       });
@@ -237,9 +232,6 @@ export class AddEmployeeComponent {
   }
 
   onRoleSelected(roleId: string, roleName: string) {
-    console.log('Selected Role ID:', roleId);
-    console.log('Selected Role Name:', roleName);
-
     // Here you can perform any action with roleId and roleName
     // For example, you could set these values to form controls
     this.form.get('roleId')?.setValue(roleId);
@@ -260,15 +252,10 @@ export class AddEmployeeComponent {
 
       this.uploadSub = this.employeeService.uploadEmployeeImage(file).subscribe({
         next: (invoice) => {
-          console.log(invoice);
-
-          console.log(invoice.fileUrl);
-
           this.imageUrl = this.url + invoice.fileUrl;
 
           this.form.get('imageUrl')?.setValue(invoice.fileUrl);
           this.form.get('imageName')?.setValue(invoice.file.filename);
-          console.log(this.form.getRawValue());
         }
       });
     }
@@ -277,7 +264,6 @@ export class AddEmployeeComponent {
   clearFileInput() {
     let file =  this.form.get('imageName')?.value
     this.employeeService.deleteImage(file).subscribe(inv => {
-      console.log(inv);
       this.imageUrl = '';
     });
   }
